@@ -3,20 +3,17 @@ package com.sparta.kosoo.feed.entity;
 import com.sparta.common.entity.TimeStamped;
 import com.sparta.kosoo.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Entity
+@NoArgsConstructor
+@Getter
 @Table(name = "posts")
-@EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends TimeStamped {
 
     @Id
@@ -24,35 +21,32 @@ public class Post extends TimeStamped {
     @Column(name = "post_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "post_title", nullable = false)
+    private String title;
 
-    @Lob
-    @Column(name = "post_content")
+    @Column(name = "post_content", nullable = false)
     private String content;
 
-    @OneToMany(mappedBy = "post")
-    private List<Comment> comments = new ArrayList<>();
+    @Column(name = "post_imageUrl")
+    private String imageUrl;
 
-    @OneToMany(mappedBy = "post")
-    private List<PostLike> postLikes = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")    // '@ManyToOne' association and may not use '@Column' to specify column mappings (use '@JoinColumn' instead)
+    private Member member;
 
-    @OneToMany(mappedBy = "post")
-    private List<PostImage> postImages = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @Column(name = "comment_list")
+    private List<Comment> commentList = new ArrayList<>();
 
-    @Column(name = "post_comment_flag")
-    private boolean commentFlag;
-
-    @Column(name = "post_like_flag")
-    private boolean likeFlag;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @Column(name = "post_like_list")
+    private List<PostLike> postLikeList = new ArrayList<>();
 
     @Builder
-    public Post(Member member, String content, boolean commentFlag, boolean likeFlag) {
-        this.member = member;
+    public Post(String title, String content, Member member, String imageUrl) {
+        this.title = title;
         this.content = content;
-        this.commentFlag = commentFlag;
-        this.likeFlag = likeFlag;
+        this.member = member;
+        this.imageUrl = imageUrl;
     }
-
 }

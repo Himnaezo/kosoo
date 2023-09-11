@@ -1,77 +1,49 @@
 package com.sparta.kosoo.member.entity;
 
-import com.sparta.common.vo.Image;
-import com.sparta.common.vo.ImageType;
-import com.sparta.kosoo.follow.entity.Follow;
+import com.sparta.member.dto.ProfileRequestDto;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.Setter;
 
-import java.util.List;
-
-@Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "members")
 public class Member {
-
     @Id
-    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "member_username", nullable = false, length = 20, unique = true)
+    @Column(name = "member_username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "member_role")
-    @Enumerated(EnumType.STRING)
-    private MemberRole role;
-
-    @Column(name = "member_password", nullable = false)
+    @Column(name = "member_password")
     private String password;
-
-    @Column(name = "member_website")
-    private String website;
-
-    @Lob
-    @Column(name = "member_introduce")
-    private String introduce;
 
     @Column(name = "member_email")
     private String email;
 
-    @Column(name = "member_phone")
-    private String phone;
+    @Column(name = "member_imageUrl")
+    private String imageUrl;
 
-    @OneToMany(mappedBy = "member")
-    private List<Follow> followings;
+    @Column(name = "member_introduce")
+    private String introduce;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "imageUrl", column = @Column(name = "member_image_url")),
-            @AttributeOverride(name = "imageType", column = @Column(name = "member_image_type")),
-            @AttributeOverride(name = "imageName", column = @Column(name = "member_image_name")),
-            @AttributeOverride(name = "imageUUID", column = @Column(name = "member_image_uuid"))
-    })
-    private Image image;
+    @Column(name = "member_role", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private MemberRole role;
 
     @Builder
-    public Member(String username, String password, String email) {
+    public Member(String username, String password, String imageUrl, String email, MemberRole role) {
         this.username = username;
         this.password = password;
+        this.imageUrl = imageUrl;
         this.email = email;
-
-        // 자동 초기화
-        this.role = MemberRole.ROLE_USER;
-        this.image = Image.builder()
-                .imageName("base")
-                .imageType(ImageType.PNG)
-                .imageUrl("https://cdn0.iconfinder.com/data/icons/narcissism/500/yul1533_11_narcissism_thumb_up-512.png")
-                .imageUUID("base-UUID")
-                .build();
+        this.role = role;
     }
+
 }
