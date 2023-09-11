@@ -1,6 +1,7 @@
 package com.sparta.kosoo.feed.entity;
 
 import com.sparta.common.entity.TimeStamped;
+import com.sparta.kosoo.feed.dto.CommentUpdateRequestDto;
 import com.sparta.kosoo.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -43,5 +44,8 @@ public class Comment extends TimeStamped {
         this.member = member;
     }
 
+    public void update(CommentUpdateRequestDto requestDto) {
+        this.content = requestDto.getContent();
+    }
 
 }

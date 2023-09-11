@@ -2,7 +2,6 @@ package com.sparta.kosoo.feed.entity;
 
 import com.sparta.kosoo.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,6 @@ public class PostLike {
     @JoinColumn(name = "member_id")
     Member member;
 
-    @Builder
     public PostLike(Post post, Member member) {
         this.post = post;
         this.member = member;

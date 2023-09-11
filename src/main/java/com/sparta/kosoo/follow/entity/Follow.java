@@ -2,7 +2,6 @@ package com.sparta.kosoo.follow.entity;
 
 import com.sparta.kosoo.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +21,6 @@ public class Follow {
     @ManyToOne(fetch = FetchType.LAZY)
     Member followerMember;
 
-    @Builder
     public Follow(Member followingMember, Member followerMember){
         this.followingMember = followingMember;
         this.followerMember = followerMember;

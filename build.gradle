@@ -18,50 +18,27 @@ repositories {
 }
 
 dependencies {
-	// JAVA 안에 JDBC 는 기본적으로 들어있어서 추가 불필요
-	// Docker DB 생성 (Postgres)
-
-	// PostgreSQL 의존성 추가
 	implementation 'org.postgresql:postgresql'
 	runtimeOnly 'org.postgresql:postgresql'
-
-	// SpringBoot 의존성 추가
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-
-	// JDBC Template 등.. Spring 의존성을 받기위한 의존성 추가
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-	// 개발편의를 위한 Lombok 의존성 추가
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	// 개발편의를 위한 devtools 의존성 추가
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-	// RawJPA 적용을 위한 의존성 추가
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-	// QueryDSL 적용을 위한 의존성 (SpringBoot3.0 부터는 jakarta 사용해야함)
-	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
-	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-
-	// 토큰 인증을 위한 JWT 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-
-	// Security 인증, 인가 사용을 위한 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'javax.xml.bind:jaxb-api:2.3.1' // 사용 가능한 최신 버전 사용
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-
-	// Api 테스트 및 문서 자동화를 위한 의존성 Swagger 추가
-	implementation 'io.springfox:springfox-swagger2:2.9.2'
-	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-
-	// JUNIT 테스트를 위한 기본 의존성
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 test {

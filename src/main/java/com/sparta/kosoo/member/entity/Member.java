@@ -1,6 +1,6 @@
 package com.sparta.kosoo.member.entity;
 
-import com.sparta.member.dto.ProfileRequestDto;
+import com.sparta.kosoo.member.dto.ProfileRequestDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,4 +46,23 @@ public class Member {
         this.role = role;
     }
 
+    public Member(String username, String password, String email, MemberRole role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
+    public void update(ProfileRequestDto requestDto) {
+        this.username = requestDto.getUsername();
+        this.password = requestDto.getPassword();
+        this.imageUrl = requestDto.getImageUrl();
+        this.introduce = requestDto.getIntroduce();
+    }
+
+    public Member update(String name, String profileImageUrl) {
+        this.username = name;
+        this.imageUrl = profileImageUrl;
+        return this;
+    }
 }

@@ -1,6 +1,7 @@
 package com.sparta.kosoo.feed.entity;
 
 import com.sparta.common.entity.TimeStamped;
+import com.sparta.kosoo.feed.dto.PostRequestDto;
 import com.sparta.kosoo.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -43,10 +44,16 @@ public class Post extends TimeStamped {
     private List<PostLike> postLikeList = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, Member member, String imageUrl) {
+    public Post(String title, String content, Member member, String imageUrl){
         this.title = title;
         this.content = content;
         this.member = member;
         this.imageUrl = imageUrl;
+    }
+
+    public void update(PostRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.imageUrl = requestDto.getImageUrl();
     }
 }
