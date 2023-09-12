@@ -1,5 +1,6 @@
 package com.sparta.common.config;
 
+
 import com.sparta.common.config.security.JwtAuthenticationFilter;
 import com.sparta.common.config.security.JwtAuthorizationFilter;
 import com.sparta.common.config.security.MemberDetailsServiceImpl;
@@ -22,11 +23,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
-public class SecurityConfig {
+public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final MemberDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
+//    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -50,6 +52,11 @@ public class SecurityConfig {
         return new JwtAuthorizationFilter(jwtUtil, userDetailsService);
     }
 
+//    @Bean
+//    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+//        return new OAuth2SuccessHandler(jwtUtil);
+//    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // CSRF 설정
@@ -69,7 +76,8 @@ public class SecurityConfig {
 //                        .anyRequest().authenticated() // 그 외 모든 요청 인증처리
                         .anyRequest().permitAll()
         );
-
+//        http.oauth2Login().successHandler(authenticationSuccessHandler()).userInfoEndpoint().userService(customOAuth2UserService);
+//        http.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
         // 필터 관리
         http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

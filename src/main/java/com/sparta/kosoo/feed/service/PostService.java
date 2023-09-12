@@ -1,17 +1,16 @@
 package com.sparta.kosoo.feed.service;
 
+
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.error.ErrorCode;
 import com.sparta.common.error.exception.CustomException;
-import com.sparta.common.result.ApiResult;
-import com.sparta.common.util.ImageUtil;
+import com.sparta.common.util.ImageUploader;
 import com.sparta.kosoo.feed.dto.PostRequestDto;
 import com.sparta.kosoo.feed.dto.PostResponseDto;
 import com.sparta.kosoo.feed.entity.Post;
 import com.sparta.kosoo.feed.repository.PostRepository;
 import com.sparta.kosoo.member.entity.MemberRole;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,11 +25,11 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final ImageUtil imageUtil;
+    private final ImageUploader imageUploader;
 
     public PostResponseDto createPost(MemberDetailsImpl userDetails, PostRequestDto requestDto, MultipartFile image) throws IOException {
         if (image != null) {
-            String imageUrl = imageUtil.upload(image, "image");
+            String imageUrl = imageUploader.upload(image, "image");
             requestDto.setImageUrl(imageUrl);
         }
         Post post = Post.builder()
@@ -60,24 +59,21 @@ public class PostService {
         if (post.getMember().getId().equals(userDetails.getUser().getId()) ||
                 userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             if (image != null) {
-                String imageUrl = imageUtil.upload(image, "image");
-                requestDto.setImageUrl(imageUrl);
+                    String imageUrl = imageUploader.upload(image, "image");
+                    requestDto.setImageUrl(imageUrl);
             }
             post.update(requestDto);
             return new PostResponseDto(post);
-        } else throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+        } else throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
     }
 
     @Transactional
-    public ApiResult deletePost(MemberDetailsImpl userDetails, Long id) {
+    public void deletePost(MemberDetailsImpl userDetails, Long id) {
         Post post = postRepository.findById(id).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_POST, null));
+                new IllegalArgumentException("선택한 게시물은 존재하지 않습니다."));
         if (post.getMember().getId().equals(userDetails.getUser().getId()) ||
                 userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             postRepository.delete(post);
-            return new ApiResult("게시물 삭제 성공", 200);
-        } else {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
-        }
+        } else throw new IllegalArgumentException("삭제 권한이 없습니다.");
     }
 }

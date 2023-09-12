@@ -1,7 +1,7 @@
 package com.sparta.kosoo.member.controller;
 
 import com.sparta.common.config.security.MemberDetailsImpl;
-import com.sparta.common.result.ApiResult;
+import com.sparta.common.dto.ApiResult;
 import com.sparta.kosoo.member.dto.*;
 import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.member.entity.MemberRole;

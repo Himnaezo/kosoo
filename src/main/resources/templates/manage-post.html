@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 게시글 수정')}"><title></title></head>
 <body>
@@ -24,8 +24,8 @@
             </form>
             <button type="button" class="btn btn-primary"  onclick="back()">취소</button>
             <button type="button" class="btn btn-primary" id="btn-save" onclick="modifyPost()">수정</button></div>
+        </div>
     </div>
-</div>
 </body>
 <script th:inline="javascript">
     let host = "http://localhost:8080"

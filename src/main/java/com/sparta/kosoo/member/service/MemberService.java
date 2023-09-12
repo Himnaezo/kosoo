@@ -1,11 +1,10 @@
 package com.sparta.kosoo.member.service;
 
 import com.sparta.common.config.security.MemberDetailsImpl;
+import com.sparta.common.dto.ApiResult;
 import com.sparta.common.error.ErrorCode;
 import com.sparta.common.error.exception.CustomException;
-import com.sparta.common.result.ApiResult;
-import com.sparta.common.util.ImageUtil;
-import com.sparta.common.util.JwtUtil;
+import com.sparta.common.util.ImageUploader;
 import com.sparta.kosoo.member.dto.*;
 import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.member.entity.MemberRole;
@@ -33,8 +32,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
-    private final ImageUtil imageUtil;
-    private final JwtUtil jwt;
+    private final ImageUploader imageUploader;
 
     public void signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
@@ -74,10 +72,10 @@ public class MemberService {
         Member member = userDetails.getUser(); // 로그인 된 유저에 맞는 정보 담기
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         Member targetMember = memberRepository.findById(member.getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_MEMBER, null));
+                new CustomException(ErrorCode.NOT_FOUND_USER, null));
 
         if (image != null) {
-            String imageUrl = imageUtil.upload(image, "image");
+            String imageUrl = imageUploader.upload(image, "image");
             System.out.println("imageUrl = " + imageUrl);
             requestDto.setImageUrl(imageUrl);
         }
@@ -85,7 +83,7 @@ public class MemberService {
         // 사용자 정보를 업데이트
         targetMember.update(requestDto);
 
-        return new ApiResult("정보 수정 완료", 200);
+        return new ApiResult("정보 수정 완료", HttpStatus.OK.value());
     }
 
 

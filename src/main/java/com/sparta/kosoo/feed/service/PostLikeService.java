@@ -1,9 +1,9 @@
 package com.sparta.kosoo.feed.service;
 
 import com.sparta.common.config.security.MemberDetailsImpl;
+import com.sparta.common.dto.ApiResult;
 import com.sparta.common.error.ErrorCode;
 import com.sparta.common.error.exception.CustomException;
-import com.sparta.common.result.ApiResult;
 import com.sparta.kosoo.feed.dto.PostResponseDto;
 import com.sparta.kosoo.feed.entity.Post;
 import com.sparta.kosoo.feed.entity.PostLike;
@@ -29,7 +29,7 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
         }
 
         Post post = postRepository.findById(postId)
@@ -43,7 +43,7 @@ public class PostLikeService {
         // 중복 방지
         PostLike postLike = postLikeRepository.findByPost_IdAndMember_Id(postId, member.getId());
         if (postLike != null){
-            throw new CustomException(ErrorCode.LIKE_AGAIN, null);
+            throw new CustomException(ErrorCode.OVERLAP_HEART, null);
         }
 
         // DB저장
@@ -58,21 +58,22 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
         }
 
         PostLike postLike = postLikeRepository.findByPost_IdAndMember_Id(postId, member.getId());
         if (postLike == null){
-            throw new CustomException(ErrorCode.NOT_FOUND_LIKE, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_HEART, null);
         }
 
+
         if (this.checkValidMember(member, postLike)) {
-            throw new CustomException(ErrorCode.CANCEL_YOURS_ONLY, null);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
         }
 
         postLikeRepository.delete(postLike);
 
-        return new ApiResult("좋아요 취소 성공", 200);
+        return new ApiResult("좋아요 취소 성공", HttpStatus.OK.value());
     }
 
     private boolean checkValidMember(Member member, PostLike postLike) {

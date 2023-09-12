@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo Inside')}"><title></title></head>
 <body>
 <div class="container">
 	<div th:replace="~{fragment/nav :: Nav}">insert</div>
-<!--	<div id="profile"></div>-->
 	<div id="feed">
 		<div id="cards"></div>
 	</div>

@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
-public class ImageUtil {
+public class ImageUploader {
 
     private final AmazonS3 amazonS3Client;
 
