@@ -29,7 +29,7 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_MEMBER, null);
         }
 
         Post post = postRepository.findById(postId)
@@ -58,7 +58,7 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_MEMBER, null);
         }
 
         PostLike postLike = postLikeRepository.findByPost_IdAndMember_Id(postId, member.getId());
@@ -68,7 +68,7 @@ public class PostLikeService {
 
 
         if (this.checkValidMember(member, postLike)) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         postLikeRepository.delete(postLike);

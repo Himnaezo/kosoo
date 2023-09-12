@@ -64,7 +64,7 @@ public class PostService {
             }
             post.update(requestDto);
             return new PostResponseDto(post);
-        } else throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
+        } else throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
     }
 
     @Transactional

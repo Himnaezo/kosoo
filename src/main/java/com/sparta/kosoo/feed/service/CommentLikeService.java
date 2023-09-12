@@ -28,7 +28,7 @@ public class CommentLikeService {
         // 토큰 체크
         Member member = userDetails.getUser();
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_MEMBER, null);
         }
         // 좋아요 누른 댓글 find
         Comment comment = commentRepository.findById(commentId).orElseThrow(
@@ -53,7 +53,7 @@ public class CommentLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_MEMBER, null);
         }
 
         CommentLike commentLike = commentLikeRepository.findByComment_IdAndMember_Id(commentId, member.getId());
@@ -62,7 +62,7 @@ public class CommentLikeService {
         }
 
         if (this.checkValidMember(member, commentLike)) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         commentLikeRepository.delete(commentLike);
