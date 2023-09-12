@@ -1,8 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
-<head th:replace="~{fragment/head :: Head ('Kosoo | 로그인')}">
-    <title th:text="${Kosoo}"></title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!-- 바꿀 title 명을 따옴표안에 넣는다 -->
+<head th:replace="~{fragment/head :: Head ('KoSoo | 로그인 멤버')}"><title></title></head>
 <body>
 <div class="container">
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
@@ -19,15 +18,15 @@
         <button id="login-btn" onclick="login()">로그인</button>
         <button id="signup-btn" onclick="location.href= host + '/signup'">회원가입</button>
     </div>
-        <!-- <div>
-            <h2>소셜 로그인</h2>
-            <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">
-                Google Login
-            </a>
-            <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">
-                Naver Login
-            </a>
-        </div> -->
+    <!-- <div>
+        <h2>소셜 로그인</h2>
+        <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">
+            Google Login
+        </a>
+        <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">
+            Naver Login
+        </a>
+    </div> -->
 </div>
 </body>
 <script>

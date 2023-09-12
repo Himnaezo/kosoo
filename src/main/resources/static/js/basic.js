@@ -5,7 +5,7 @@ $(document).ready(function () {
         $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
             jqXHR.setRequestHeader('Authorization', auth);
         });
-        // loadProfile();
+        loadProfile();
     }
     loadFeed();
 })
@@ -16,52 +16,35 @@ function getToken() {
     }
     return auth;
 }
-// function signupAndLogin() {
-//     var profile = document.getElementById('profile');
-//     // var signupButton = document.createElement('button');
-//     // var loginButton = document.createElement('button');
-//     signupButton.textContent = 'SignUp';
-//     loginButton.textContent = 'Login';
-//
-//     signupButton.addEventListener('click', function () {
-//         window.location.href = "/signup"
-//     });
-//
-//     loginButton.addEventListener('click', function () {
-//         window.location.href = '/login';
-//     });
-//     profile.appendChild(signupButton);
-//     profile.appendChild(loginButton);
-// }
-// function loadProfile() {
-//     $.ajax({
-//         url: "http://localhost:8080/api/accounts/settings-profile",
-//         method: 'GET',
-//         success: function (response) {
-//             $('#profile').empty();
-//                 $('#profile').append(`<div class="card">
-//                                         <div><span>프로필</span></div>
-//                                         <div class="profile-image">
-//                                             <img src="${response.imageUrl}">
-//                                         </div>
-//                                          <div class="profile-contents">
-//                                             <h4>${response.username}</h4>
-//                                             <div class="introduce">
-//                                                 <p>${response.introduce}</p>
-//                                             </div>
-//                                         </div>
-//                                       </div>`)
-//         },
-//         error: function (error) {
-//             console.log('Error:', error);
-//         }
-//     })
-// }
-function createPost() {
-    window.location.href = host + "/posts"
+function loadProfile() {
+    $.ajax({
+        url: "http://localhost:8080/api/accounts/profile/manage",
+        method: 'GET',
+        success: function (response) {
+            $('#profile').empty();
+            $('#profile').append(`
+                <div class="feed">
+                    <div><span>프로필</span></div>
+                    <div class="image">
+                        <img src="${response.imageUrl}">
+                    </div>
+                     <div class="feedContent">
+                        <h4>${response.username}</h4>
+                        <div class="description">
+                            <p>${response.introduce}</p>
+                        </div>
+                    </div>
+                    <button onclick="modifyProfile()">프로필 수정</button>
+                </div>
+            `)
+        },
+        error: function (error) {
+            console.log('Error:', error);
+        }
+    })
 }
 function modifyProfile(){
-    window.location.href = host + "/settings-profile"
+    window.location.href = host + "/profile/manage"
 }
 function loadFeed() {
     $.ajax({
@@ -112,10 +95,3 @@ function addHTML(post) {
               </div>`
     }
 }
-function logout(){
-    Cookies.remove('Authorization', {path: '/'});
-    window.location.href = host;
-}
-// function follow(){
-//     window.location.href = host + '/follows';
-// }

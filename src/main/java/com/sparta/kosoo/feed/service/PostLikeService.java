@@ -1,15 +1,15 @@
 package com.sparta.kosoo.feed.service;
 
+import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.error.ErrorCode;
 import com.sparta.common.error.exception.CustomException;
 import com.sparta.common.result.ApiResult;
-import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.kosoo.feed.dto.PostResponseDto;
-import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.feed.entity.Post;
 import com.sparta.kosoo.feed.entity.PostLike;
 import com.sparta.kosoo.feed.repository.PostLikeRepository;
 import com.sparta.kosoo.feed.repository.PostRepository;
+import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.member.entity.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_MEMBER, null);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         Post post = postRepository.findById(postId)
@@ -43,7 +43,7 @@ public class PostLikeService {
         // 중복 방지
         PostLike postLike = postLikeRepository.findByPost_IdAndMember_Id(postId, member.getId());
         if (postLike != null){
-            throw new CustomException(ErrorCode.OVERLAP_HEART, null);
+            throw new CustomException(ErrorCode.LIKE_AGAIN, null);
         }
 
         // DB저장
@@ -58,22 +58,21 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_MEMBER, null);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         PostLike postLike = postLikeRepository.findByPost_IdAndMember_Id(postId, member.getId());
         if (postLike == null){
-            throw new CustomException(ErrorCode.NOT_FOUND_HEART, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_LIKE, null);
         }
 
-
         if (this.checkValidMember(member, postLike)) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+            throw new CustomException(ErrorCode.CANCEL_YOURS_ONLY, null);
         }
 
         postLikeRepository.delete(postLike);
 
-        return new ApiResult("좋아요 취소 성공", HttpStatus.OK.value());
+        return new ApiResult("좋아요 취소 성공", 200);
     }
 
     private boolean checkValidMember(Member member, PostLike postLike) {

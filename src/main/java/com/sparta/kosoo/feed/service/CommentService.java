@@ -1,16 +1,16 @@
 package com.sparta.kosoo.feed.service;
 
+import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.error.ErrorCode;
 import com.sparta.common.error.exception.CustomException;
-import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.kosoo.feed.dto.CommentRequestDto;
 import com.sparta.kosoo.feed.dto.CommentResponseDto;
 import com.sparta.kosoo.feed.dto.CommentUpdateRequestDto;
 import com.sparta.kosoo.feed.entity.Comment;
 import com.sparta.kosoo.feed.entity.Post;
-import com.sparta.kosoo.member.entity.MemberRole;
-import com.sparta.kosoo.feed.repository.PostRepository;
 import com.sparta.kosoo.feed.repository.CommentRepository;
+import com.sparta.kosoo.feed.repository.PostRepository;
+import com.sparta.kosoo.member.entity.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +39,7 @@ public class CommentService {
     }
 
     public void deleteComment(Long id, MemberDetailsImpl userDetails) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT, null));
         if (userDetails.getUser().getId().equals(comment.getMember().getId()) || userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             commentRepository.delete(comment);
         } else throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);

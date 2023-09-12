@@ -1,79 +1,12 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
-<head th:replace="~{fragment/head :: Head ('KoSoo | 프로필')}">
-	<title th:text="${user.username}"></title>
-</head>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!-- 바꿀 title 명을 따옴표안에 넣는다 -->
+<head th:replace="~{fragment/head :: Head ('KoSoo | 프로필 수정')}"><title></title></head>
 <body>
 <div class="container">
 	<div th:replace="~{fragment/nav :: Nav}">insert</div>
-	<h1 th:text="${user.username} + '님의 프로필'"></h1>
-	<div id="profile">
-		<div class="card">
-			<div><span>프로필</span></div>
-			<div class="profile-image">
-				<img th:src="${user.imageUrl}">
-			</div>
-			<div class="profile-contents">
-				<h4 th:text="${user.username}"></h4>
-				<div class="introduce">
-					<p th:text="${user.introduce}"></p>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div id="profile"></div>
 </div>
 </body>
-<script>
-	let host = "http://localhost:8080"
-	$(document).ready(function () {
-		const auth = getToken();
-		if (auth !== undefined && auth !== '') {
-			$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-				jqXHR.setRequestHeader('Authorization', auth);
-			});
-		}
-
-		if (window.location.href.endsWith('/profile/manage')) {
-			loadManageProfile();
-		} else {
-			loadProfile();
-		}
-	});
-	function getToken() {
-		let auth = Cookies.get('Authorization');
-		if (auth === undefined) {
-			return '';
-		}
-		return auth;
-	}
-	function loadProfile() {
-		$.ajax({
-			url: "http://localhost:8080/api/accounts/profile/manage",
-			method: 'GET',
-			success: function (response) {
-				$('#profile').empty();
-				if (response) {
-					$('#profile').append(`<div class="card">
-                                        <div><span>프로필</span></div>
-                                        <div class="profile-image">
-                                            <img src="${response.imageUrl}">
-                                        </div>
-                                         <div class="profile-contents">
-                                            <h4>${response.username}</h4>
-                                            <div class="introduce">
-                                                <p>${response.introduce}</p>
-                                            </div>
-                                        </div>
-                                      </div>`)
-				} else {
-					// response가 null인 경우 또는 사용자가 인증되지 않은 경우에 대한 처리
-					$('#profile').append('<p>프로필을 불러올 수 없습니다.</p>');
-				}
-			},
-			error: function (error) {
-				console.log('Error:', error);
-			}
-		})
-	}
-</script>
+<script type="text/javascript" src="/js/basic.js" ></script>
 </html>

@@ -9,11 +9,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ApiResult {
-    private String msg;
-    private int statusCode;
+
+    private int httpStatus;
+    private String ResultMessage;
+
     @Builder
-    public ApiResult(String msg, int statusCode) {
-        this.msg = msg;
-        this.statusCode = statusCode;
+    public ApiResult(String ResultMessage, int httpStatus) {
+
+        this.httpStatus = httpStatus;
+        this.ResultMessage = ResultMessage;
     }
 }

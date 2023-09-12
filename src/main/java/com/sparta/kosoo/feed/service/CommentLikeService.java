@@ -1,18 +1,17 @@
 package com.sparta.kosoo.feed.service;
 
+import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.error.ErrorCode;
 import com.sparta.common.error.exception.CustomException;
 import com.sparta.common.result.ApiResult;
-import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.kosoo.feed.dto.CommentResponseDto;
 import com.sparta.kosoo.feed.entity.Comment;
 import com.sparta.kosoo.feed.entity.CommentLike;
-import com.sparta.kosoo.member.entity.Member;
-import com.sparta.kosoo.feed.repository.CommentRepository;
 import com.sparta.kosoo.feed.repository.CommentLikeRepository;
+import com.sparta.kosoo.feed.repository.CommentRepository;
+import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.member.entity.MemberRole;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +40,7 @@ public class CommentLikeService {
         // 중복 좋아요 방지
         CommentLike commentLike = commentLikeRepository.findByComment_IdAndMember_Id(comment.getId(), member.getId());
         if (commentLike != null){
-            throw new CustomException(ErrorCode.OVERLAP_HEART, null);
+            throw new CustomException(ErrorCode.LIKE_AGAIN, null);
         }
         // DB저장
         commentLikeRepository.save(new CommentLike(comment, member));
@@ -58,7 +57,7 @@ public class CommentLikeService {
 
         CommentLike commentLike = commentLikeRepository.findByComment_IdAndMember_Id(commentId, member.getId());
         if (commentLike == null){
-            throw new CustomException(ErrorCode.NOT_FOUND_HEART, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_LIKE, null);
         }
 
         if (this.checkValidMember(member, commentLike)) {
@@ -66,7 +65,7 @@ public class CommentLikeService {
         }
 
         commentLikeRepository.delete(commentLike);
-        return new ApiResult("좋아요 취소 성공", HttpStatus.OK.value());
+        return new ApiResult("좋아요 취소 성공", 200);
     }
 
     private boolean checkValidMember(Member member, CommentLike commentLike) {

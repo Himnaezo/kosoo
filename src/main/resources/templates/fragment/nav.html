@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <body>
 <div th:fragment="Nav">
   <div class="header">
-    <h2><a th:href="@{/}">KoSooInside</a></h2>
+    <h2><a th:href="@{/}">KoSoo</a></h2>
     <div class="nav">
       <ul>
-        <li><a href="#" th:if="${member}"><p> <span th:text="${member}"></span>님의 접속을 환영합니다.</p></a></li>
         <li><a th:href="@{/posts}" sec:authorize="isAuthenticated()">게시글 작성</a></li>
         <li><a th:href="@{/follows}" sec:authorize="isAuthenticated()">팔로우할 고수 찾기</a></li>
-        <li><a th:href="@{/api/accounts/profile}" sec:authorize="isAuthenticated()">마이페이지</a></li>
-        <li><a th:href="@{/signup}" sec:authorize="!isAuthenticated()">회원가입</a></li>
+        <li><a th:href="@{/profile}" sec:authorize="isAuthenticated()">마이페이지</a></li>
         <li><a th:href="@{/login}" sec:authorize="!isAuthenticated()">로그인</a></li>
-        <li><a th:href="@{/api/accounts/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
+        <li><a th:href="@{/signup}" sec:authorize="!isAuthenticated()">회원가입</a></li>
+        <li><a th:href="@{/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
       </ul>
     </div>
   </div>

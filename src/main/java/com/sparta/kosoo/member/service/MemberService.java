@@ -1,10 +1,11 @@
 package com.sparta.kosoo.member.service;
 
+import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.error.ErrorCode;
 import com.sparta.common.error.exception.CustomException;
 import com.sparta.common.result.ApiResult;
 import com.sparta.common.util.ImageUtil;
-import com.sparta.common.config.security.MemberDetailsImpl;
+import com.sparta.common.util.JwtUtil;
 import com.sparta.kosoo.member.dto.*;
 import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.member.entity.MemberRole;
@@ -33,6 +34,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
     private final ImageUtil imageUtil;
+    private final JwtUtil jwt;
 
     public void signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
@@ -83,7 +85,7 @@ public class MemberService {
         // 사용자 정보를 업데이트
         targetMember.update(requestDto);
 
-        return new ApiResult("정보 수정 완료", HttpStatus.OK.value());
+        return new ApiResult("정보 수정 완료", 200);
     }
 
 

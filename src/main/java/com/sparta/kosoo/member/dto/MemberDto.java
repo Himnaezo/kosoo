@@ -13,7 +13,7 @@ public class MemberDto {
     boolean isAdmin;
     String imageUrl;
 
-    public MemberDto(Member member){
+    public MemberDto(Member member) {
         this.id = member.getId();
         this.username = member.getUsername();
         this.introduce = member.getIntroduce();

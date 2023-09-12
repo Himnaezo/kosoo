@@ -1,7 +1,7 @@
 package com.sparta.kosoo.member.controller;
 
-import com.sparta.common.result.ApiResult;
 import com.sparta.common.config.security.MemberDetailsImpl;
+import com.sparta.common.result.ApiResult;
 import com.sparta.kosoo.member.dto.*;
 import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.member.entity.MemberRole;
@@ -53,7 +53,7 @@ public class MemberController {
         return  memberService.emailAuth(requestDto.getEmail());
     }
 
-    @GetMapping("/settings-profile")
+    @GetMapping("/profile/manage")
     @ResponseBody
     public MemberDto readMember(@AuthenticationPrincipal MemberDetailsImpl userDetails) {
         Member member = userDetails.getUser();
@@ -78,7 +78,7 @@ public class MemberController {
         return memberService.readProfile(userDetails);
     }
 
-    @PutMapping(value = "/settings-profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/profile/manage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
     public ApiResult updateProfile(@AuthenticationPrincipal MemberDetailsImpl userDetails,
                                    @RequestParam(value = "image", required = false) MultipartFile image,
