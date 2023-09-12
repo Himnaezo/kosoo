@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="~{fragment/head :: Head ('Kosoo | 게시글 수정')}">
+    <title th:text="${Kosoo}"></title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragment/nav :: Nav}">insert</div>
+    <h1>게시물 수정</h1>
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for ="title">제목</label>
+                    <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for ="title">내용</label>
+                    <textarea class="form-control" id="content" placeholder="내용을 입력하세요"></textarea>
+                </div>
+                <div>
+                    <label for="postImage">이미지</label>
+                    <input type="file" id="postImage" name="postImage">
+                </div>
+            </form>
+            <button type="button" class="btn btn-primary"  onclick="back()">취소</button>
+            <button type="button" class="btn btn-primary" id="btn-save" onclick="modifyPost()">수정</button></div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    let host = "http://localhost:8080"
+    let sel_file;
+    $(document).ready(function () {
+        const auth = getToken();
+        if (auth !== undefined && auth !== '') {
+            $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                jqXHR.setRequestHeader('Authorization', auth);
+            });
+        }
+        $("#postImage").on("change", handleImgFileSelect);
+    })
+    function getToken() {
+        let auth = Cookies.get('Authorization');
+        if (auth === undefined) {
+            return '';
+        }
+
+        return auth;
+    }
+    function handleImgFileSelect(e) {
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+        filesArr.forEach(function(f) {
+            if (!f.type.match(reg)) {
+                alert("JPG, JPEG, PNG, BMP 파일(이미지)만 업로드 가능합니다.");
+                return;
+            }
+            sel_file = f;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $("#img").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(f);
+        });
+    }
+    function modifyPost(){
+        let feedId = [[${post.id}]];
+        let title = $('#title').val();
+        let content = $('#content').val();
+
+        let imageInput = document.getElementById('postImage');
+        let image = imageInput.files[0];
+        let formData = new FormData();
+        formData.append("title", title);
+        formData.append("content", content);
+        if (image !== 'undefined') {
+            formData.append("image", image)
+        }
+        $.ajax({
+            type: "PUT",
+            url: `/api/posts/` + feedId,
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function () {
+            alert("👌 게시글 수정 완료")
+            window.location.href=host
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function back(){
+        let feedId = [[${post.id}]];
+        window.location.href=host + '/posts/'+ feedId
+    }
+</script>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="~{fragment/head :: Head ('KoSoo | 프로필 관리')}">
+    <title th:text="${user.username}"></title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragment/nav :: Nav}">insert</div>
+    <h1 th:text="${user.username} + '님의 프로필 관리'"></h1>
+    <div id="profile">
+        <!-- Similar content as in profile.html -->
+    </div>
+</div>
+</body>
+<script>
+    let isCorrectPassword = false;
+    let sel_file;
+    let host = "http://localhost:8080"
+    $(document).ready(function () {
+        const auth = getToken();
+        if (auth !== undefined && auth !== '') {
+            $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                jqXHR.setRequestHeader('Authorization', auth);
+            });
+        }
+        $("#file1").on("change", handleImgFileSelect);
+    })
+    function getToken() {
+        let auth = Cookies.get('Authorization');
+        if (auth === undefined) {
+            return '';
+        }
+
+        return auth;
+    }
+    function checkPassword() {
+        let password = $('#password').val();
+        console.log(password)
+
+        $.ajax({
+            type: "POST",
+            url: `/api/accounts/profile`,
+            contentType: "application/json",
+            data: JSON.stringify({password: password}),
+        }).done(function () {
+            $("#passwordForm").hide();
+            $("#modifyForm").show();
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function back(){
+        window.location.href = host
+    }
+    function handleImgFileSelect(e) {
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+
+        filesArr.forEach(function(f) {
+            if (!f.type.match(reg)) {
+                alert("JPG, JPEG, PNG, BMP 파일(이미지)만 업로드 가능합니다.");
+                return;
+            }
+
+            sel_file = f;
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $("#img").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(f);
+        });
+    }
+    function modify(){
+        let username = $('#username').val();
+        let password = $('#modifyPassword').val();
+        let introduce = $('#introduce').val();
+        let imageInput = document.getElementById('file1');
+        let image = imageInput.files[0];
+        let formData = new FormData();
+        formData.append("username", username);
+        formData.append("password", password);
+        formData.append("introduce", introduce);
+        if (image !== 'undefined') {
+            formData.append("image", image)
+        }
+        $.ajax({
+            type: "PUT",
+            url: `/api/accounts/profile/manage`,
+            data: formData,
+            processData: false,
+            contentType: false
+        }).done(function () {
+            alert("👏 프로필 변경 완료")
+            back()
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+</script>
+</html>

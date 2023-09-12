@@ -1,0 +1,266 @@
+/*html, body {*/
+/*    height: 100%;*/
+/*}*/
+
+/*#profile {*/
+/*    width: 20%;*/
+/*    height: 100%;*/
+/*    background-color: antiquewhite;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    float: left;*/
+/*}*/
+
+/*#profile button {*/
+/*    width: 200px;*/
+/*    height: 50px;*/
+/*    margin: 10px;*/
+/*    border: aliceblue;*/
+/*    outline: cyan;*/
+/*}*/
+
+/*#feeds {*/
+/*    width: 80%;*/
+/*    !*background-color: blueviolet;*!*/
+/*    display: flex;*/
+/*    margin-top: 2rem;*/
+
+/*}*/
+
+/*.feedList {*/
+/*    flex: 1 1 0%;*/
+/*}*/
+
+/*.card {*/
+/*    display: flex;*/
+/*    margin: -1rem;*/
+/*    flex-wrap: wrap;*/
+/*}*/
+
+/*.feedHref{*/
+/*    display: block;*/
+/*    color: inherit;*/
+/*    text-decoration: none;*/
+/*}*/
+/*.image{*/
+/*    padding-top: 52.1921%;*/
+/*    width: 100%;*/
+/*    position: relative;*/
+/*}*/
+/*.image > img{*/
+/*    position: absolute;*/
+/*    top: 0px;*/
+/*    left: 0px;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    display: block;*/
+/*    object-fit: cover;*/
+
+/*}*/
+/*.post {*/
+/*    width: 20rem;*/
+/*    background: beige;*/
+/*    border-radius: 4px;*/
+/*    box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;*/
+/*    transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;*/
+/*    margin: 1rem;*/
+/*    overflow: hidden;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
+/*.feedContent{*/
+/*    padding: 1rem;*/
+/*    display: flex;*/
+/*    flex: 1 1 0%;*/
+/*    flex-direction: column;*/
+/*}*/
+
+/*.description{*/
+/*    flex: 1 1 0%;*/
+/*}*/
+
+/*.subInfo{*/
+/*    font-size: 0.75rem;*/
+/*    line-height: 1.5;*/
+/*    color: grey;*/
+/*}*/
+/*.feedUser{*/
+/*    padding: 0.625rem 1rem;*/
+/*    border-top: 1px solid gainsboro;*/
+/*    display: flex;*/
+/*    font-size: 0.75rem;*/
+/*    line-height: 1.5;*/
+/*    -webkit-box-pack: justify;*/
+/*    justify-content: space-between;*/
+/*}*/
+/*.userInfo{*/
+/*    text-decoration: none;*/
+/*    color: inherit;*/
+/*    display: flex;*/
+/*    -webkit-box-align: center;*/
+/*    align-items: center;*/
+/*}*/
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{font-family: 'GmarketSansMedium', sans-serif;}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    /*background-image: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)), url("../images/test2.jpg");*/
+    /*background-size: cover;*/
+}
+
+
+/* 전체 링크 */
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* header 시작 */
+.header{
+    width: 100%;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between; /*양쪽 정렬*/
+    align-items: center;
+}
+
+/* 로고 */
+.header h1 a {
+    /*color:white;*/
+    font-weight: 700;
+}
+
+/* 네비게이션 */
+.nav ul li{
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.nav ul li a:hover {
+    color: #1fd;
+}
+
+/* header 끝 */
+
+/*!* 홈 메인 *!*/
+/*.main {*/
+/*    position: absolute;*/
+/*    left : 50%;*/
+/*    top : 50%;*/
+/*    transform : translate(-50%, -50%);*/
+/*    color: white;*/
+/*    text-align: center;*/
+/*}*/
+
+/*!* 메인 검색 폼 *!*/
+/*#search {*/
+/*    width: 400px;*/
+/*    height: 30px;*/
+/*    border-radius: 10px;*/
+/*    text-align: center;*/
+/*}*/
+
+/*!* 검색 버튼*!*/
+/*#searchButton {*/
+/*    width: 30px;*/
+/*    height: 30px;*/
+/*    border-radius: 10px;*/
+/*}*/
+
+/*!* 회원가입, 로그인 폼 *!*/
+/*#username, #password, #checkPassword, #email {*/
+/*    width: 200px;*/
+/*    height: 30px;*/
+/*    border-radius: 10px;*/
+/*    text-align: center;*/
+
+/*    margin: 10px;*/
+/*}*/
+
+/*!*제출 버튼*!*/
+/*.submit {*/
+/*    width: 200px;*/
+/*    height: 30px;*/
+/*    border-radius: 10px;*/
+/*}*/
+
+/*.columns-container {*/
+/*    width: 1320px;*/
+/*    margin: auto;*/
+/*    display: flex;*/
+/*    overflow-x: auto; !* 스크롤이 필요할 경우 스크롤 허용 *!*/
+/*}*/
+
+/*.column-box {*/
+/*    border: 1px solid #ccc;*/
+/*    padding: 5px;*/
+/*    margin: 5px;*/
+/*    background-color: #f0f0f0;*/
+/*    font-size: 14px;*/
+/*    border-radius: 10px;*/
+/*    width: 250px;*/
+/*    text-align: right;*/
+
+/*}*/
+
+/*.card-box {*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 10px;*/
+/*    padding: 5px;*/
+/*    margin: 5px;*/
+/*    background-color: #fff;*/
+/*    font-size: 12px;*/
+/*    text-align: left;*/
+/*    width: 200px;*/
+/*}*/
+
+/*!* 메모지 스타일 *!*/
+/*.memo-box {*/
+/*    border: 1px solid #ffcc00;*/
+/*    padding: 8px;*/
+/*    margin: 5px;*/
+/*    background-color: #ffffcc;*/
+/*    font-size: 12px;*/
+/*    width: 120px;*/
+/*}*/
+
+
+/*!* 작은 삭제 버튼 스타일 추가 *!*/
+/*.delete-column-box {*/
+/*    !*position: absolute;*!*/
+/*    !*top: 0;*!*/
+/*    !*right: 0;*!*/
+/*    !*display: inline-block;*!*/
+/*    border : 0px;*/
+/*    background-color: #ff9999;*/
+/*    color: white;*/
+/*    font-size: 10px;*/
+/*    padding: 2px 6px;*/
+/*    border-radius: 3px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.list-add {*/
+/*    width: 250px;*/
+/*    height: 100px;*/
+/*    font-size: 14px;*/
+/*    border-radius: 10px;*/
+/*    background-color: rgba(239, 232, 232, 0.62);*/
+/*}*/

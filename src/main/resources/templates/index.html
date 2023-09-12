@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="~{fragment/head :: Head ('KoSoo | 메인 피드')}">
+	<title th:text="${KoSoo}"></title>
+</head>
+<body>
+<div class="container">
+	<div th:replace="~{fragment/nav :: Nav}">insert</div>
+	<h1>메인 페이지</h1>
+	<div id="feed">
+		<div id="cards"></div>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="/js/basic.js" ></script>
+</html>

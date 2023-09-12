@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="~{fragment/head :: Head ('Kosoo | 게시글 상세')}">
+    <title th:text="${Kosoo}"></title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragment/nav :: Nav}">insert</div>
+    <h1>글상세 페이지</h1>
+    <div class="post">
+        <div class="profile-image">
+            <img th:src="${post.imageUrl}" alt="profile-img">
+        </div>
+        <div class="post-contents">
+            <h2 th:text="${post.title}"></h2>
+            <p th:text="${post.content}"></p>
+            <div class="post-date">
+                <span th:text="${post.modifiedAt}"> </span>
+            </div>
+        </div>
+        <div class="post-writer">
+            <span>
+                <b th:text="${post.username}"></b>
+            </span>
+        </div>
+        <div style="display: flex">
+            <button onclick="modifyPost()"> 수정</button>
+            <button id="btn-delete" onclick="deletePost()">삭제</button>
+        </div>
+        <br>
+        <div class="post-like">
+            <span>게시글 좋아요 개수:  </span>
+            <span th:text="${post.heartNum}"></span>
+            <button class="btn-post-like" onclick="postLike()">좋아요</button>
+            <button class="btn-post-like" onclick="postDislike()">좋아요 취소</button>
+        </div>
+        <br>
+        <div id="form-commentInfo">
+            <div id="comment-count">댓글 수:  <span id="count" th:text="${#lists.size(post.commentList)}"></span></div>
+            <input id="comment-input" placeholder="댓글을 입력해 주세요.">
+            <button id="submit" onclick="create()">등록</button>
+        </div>
+        <div id=comments>
+            <ul>
+                <li th:each="comment : ${post.commentList}">
+                    <div>
+                        <span th:text="${comment.content}"></span>
+                    </div>
+                    <span th:text="${comment.username}">&nbsp;&nbsp;</span>
+                    <span th:text="${comment.modifiedAt}"></span>
+                    <input th:id="'comment-modify-input-' + ${comment.id}" placeholder="수정하실 댓글내용을 입력해 주세요.">
+                    <button id="modify-btn" th:comment="${comment.id}" th:onclick="modifyComment(this.getAttribute('comment'))">수정</button>
+                    <button id="delete-btn" th:comment="${comment.id}" th:onclick="deleteComment(this.getAttribute('comment'))">삭제</button>
+                    <br>
+                    <span>댓글 좋아요 수 :  </span>
+                    <span th:text="${comment.heartNum}"></span>
+                    <button th:comment="${comment.id}" th:onclick="commentLike(this.getAttribute('comment'))">좋아요</button>
+                    <button th:comment="${comment.id}" th:onclick="commentDislike(this.getAttribute('comment'))">좋아요 취소</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    let host = "http://localhost:8080"
+    $(document).ready(function () {
+        const auth = getToken();
+        if (auth !== undefined && auth !== '') {
+            $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                jqXHR.setRequestHeader('Authorization', auth);
+            });
+        }
+    })
+    function getToken() {
+        let auth = Cookies.get('Authorization');
+        if (auth === undefined) {
+            return '';
+        }
+
+        return auth;
+    }
+    function create() { // 왜 이것만 function명 바꾸면 동작못하지?
+        let feedId = [[${post.id}]];
+        let content = $('#comment-input').val();
+        $.ajax({
+            type: "POST",
+            url: `/api/comments`,
+            contentType: "application/json",
+            data: JSON.stringify({feedId: feedId, content: content}),
+        }).done(function () {
+            window.location.href = host + "/api/posts/" + feedId
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function modifyPost() {
+        let feedId = [[${post.id}]]
+        window.location.href = host + "/api/posts/manage/" + feedId
+    }
+    function deletePost() {
+        let feedId = [[${post.id}]];
+        $.ajax({
+            type: "DELETE",
+            url: `/api/posts/` + feedId,
+            contentType: "application/json",
+        }).done(function () {
+            alert("🗑 삭제 완료")
+            window.location.href = host;
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function modifyComment(id) {
+        let feedId = [[${post.id}]];
+        let inputId = 'comment-modify-input-' + id;
+        let content = $('#' + inputId).val();
+        console.log(content)
+
+        $.ajax({
+            type: "PUT",
+            url: `/api/comments/` + id,
+            contentType: "application/json",
+            data: JSON.stringify({feedId: feedId, content: content}),
+        }).done(function () {
+            alert("📝 댓글 수정 완료");
+            window.location.href = host + "/api/posts/" + feedId
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function deleteComment(id) {
+        let feedId = [[${post.id}]];
+        $.ajax({
+            type: "DELETE",
+            url: `/api/comments/` + id,
+            contentType: "application/json",
+        }).done(function () {
+            alert("🗑 댓글 삭제 완료");
+            window.location.href = host + "/api/posts/" + feedId
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function postLike(){
+        let feedId = [[${post.id}]];
+        $.ajax({
+            type: "POST",
+            url: `/api/posts/likes/` + feedId,
+            contentType: "application/json",
+        }).done(function () {
+            alert("💖 게시글 좋아요");
+            window.location.href = host + "/api/posts/" + feedId
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function postDislike(){
+        let feedId = [[${post.id}]];
+        $.ajax({
+            type: "DELETE",
+            url: `/api/posts/likes/` + feedId,
+            contentType: "application/json",
+        }).done(function () {
+            alert("❌ 게시글 좋아요 취소");
+            window.location.href = host + "/api/posts/" + feedId
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function commentLike(id){
+        $.ajax({
+            type: "POST",
+            url: `/api/comments/likes/` + id,
+            contentType: "application/json",
+        }).done(function () {
+            alert("💕 댓글 좋아요");
+            window.location.href = host + "/api/posts/" + [[${post.id}]]
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function commentDislike(id){
+        $.ajax({
+            type: "DELETE",
+            url: `/api/comments/likes/` + id,
+            contentType: "application/json",
+        }).done(function () {
+            alert("💔 댓글 좋아요 취소");
+            window.location.href = host + "/api/posts/" + [[${post.id}]]
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+</script>
+</html>

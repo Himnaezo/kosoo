@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="~{fragment/head :: Head ('Kosoo | 팔로우')}">
+    <title th:text="${Kosoo}"></title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragment/nav :: Nav}">insert</div>
+    <h1>팔로우 찾기</h1>
+    <ul id="member-list"></ul>
+    <h1>팔로잉 게시물</h1>
+    <ul id="post-list"></ul>
+</div>
+</body>
+<script>
+    host = "http://localhost:8080"
+    $(document).ready(function () {
+        const auth = getToken();
+        if (auth !== undefined && auth !== '') {
+            $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                jqXHR.setRequestHeader('Authorization', auth);
+            });
+        }
+        loadFeed();
+        loadMembers();
+    })
+    function getToken() {
+        let auth = Cookies.get('Authorization');
+        if (auth === undefined) {
+            return '';
+        }
+
+        return auth;
+    }
+    function loadFeed() {
+        // 스크롤 이벤트 리스너 등록
+        // 스크롤이 맨 아래로 내려갔을 때 새로운 피드 추가
+        // 새로운 피드 가져오기
+        $.ajax({
+            url: 'http://localhost:8080/api/following/posts',
+            method: 'GET',
+            success: function (response) {
+                console.log(response)
+                $('#post-list').empty();
+                response.forEach(post => {
+                    let addHtml = addHTML(post);
+                    $('#post-list').append(addHtml)
+                });
+            },
+            error: function (error) {
+                console.log('Error:', error);
+            }
+        });
+    }
+    function addHTML(post) {
+        return `<div class="post">
+                <a class="feedHref" href="http://localhost:8080/api/posts/likes/${post.id}">
+                    <div class="image">
+                        <img src="${post.imageUrl}">
+                    </div>
+                </a>
+                <div class="feedContent">
+                    <a class="feedHref" href="http://localhost:8080/api/posts/likes/${post.id}">
+                        <h4>${post.title}</h4>
+                        <div class="description">
+                            <p>${post.content}</p>
+                        </div>
+                        <div> <p> 좋아요 수: ${post.heartNum}</p></div>
+                    </a>
+                    <div class="subInfo">
+                        <span> ${post.modifiedAt} </span>
+                        <span class="seperator"></span>
+                    </div>
+                </div>
+                <div class="feedUser">
+                    <a class="userInfo" href="">
+                        <span>
+                            "by "
+                            <b>${post.username}</b>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            `
+    }
+    function loadMembers() {
+        // 스크롤 이벤트 리스너 등록
+        // 스크롤이 맨 아래로 내려갔을 때 새로운 피드 추가
+        // 새로운 피드 가져오기
+        $.ajax({
+            url: 'http://localhost:8080/api/accounts/members',
+            method: 'GET',
+            success: function (response) {
+                console.log(response)
+                $('#member-list').empty();
+                response.forEach(profile => {
+                    let addHtml = addProfile(profile);
+                    $('#member-list').append(addHtml)
+                });
+            },
+            error: function (error) {
+                console.log('Error:', error);
+            }
+        });
+    }
+    function addProfile(profile) {
+        return `<div class="post">
+                    <div><span>프로필</span></div>
+                    <div class="image">
+                        <img src="${profile.imageUrl}">
+                    </div>
+                     <div class="feedContent">
+                        <h4>${profile.username}</h4>
+                        <div class="description">
+                            <p>${profile.introduce}</p>
+                        </div>
+                    </div>
+                    <div>
+                    <button onclick="follow(${profile.id})">팔로우</button>
+                    <button onclick="unfollow(${profile.id})">언팔로우</button>
+                    </div>
+                </div>`
+    }
+    function follow(id){
+        $.ajax({
+            type: "POST",
+            url: `/api/follows/`+id,
+            contentType: "application/json",
+        }).done(function () {
+            alert("😍 팔로우 성공");
+            window.location.href = host + "/follows"
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+    function unfollow(id){
+        $.ajax({
+            type: "DELETE",
+            url: `/api/follows/`+id,
+            contentType: "application/json",
+        }).done(function () {
+            alert("😶 언팔로우 성공")
+            window.location.href = host + "/follows"
+        }).fail(function (res) {
+            alert(res.responseText);
+        })
+    }
+</script>
+</html>
