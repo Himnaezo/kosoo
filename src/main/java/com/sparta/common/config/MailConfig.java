@@ -3,6 +3,7 @@ package com.sparta.common.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -11,30 +12,31 @@ import java.util.Properties;
 @Configuration
 public class MailConfig {
 
-    @Value("${mail.host}")
-    private String host;
+    @Value("${spring.mail.host}")
+    private String mailHost;
 
-    @Value("${mail.port}")
-    private int port;
+    @Value("${spring.mail.port}")
+    private int mailPort;
 
-    @Value("${mail.username}")
-    private String username;
+    @Value("${spring.mail.username}")
+    private String mailUsername;
 
-    @Value("${mail.password}")
-    private String password;
+    @Value("${spring.mail.password}")
+    private String mailPassword;
 
+    @Primary
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(host); // 이메일 호스트 설정
-        mailSender.setPort(port); // 이메일 포트 설정
+        mailSender.setHost(mailHost);
+        mailSender.setPort(mailPort);
+        mailSender.setUsername(mailUsername);
+        mailSender.setPassword(mailPassword);
 
-        mailSender.setUsername(username); // 이메일 주소 설정
-        mailSender.setPassword(password); // 이메일 비밀번호 설정
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        // 추가적인 설정 (예: TLS 사용 설정)
+        Properties properties = mailSender.getJavaMailProperties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
 
         return mailSender;
     }
