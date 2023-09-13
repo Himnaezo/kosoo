@@ -39,7 +39,7 @@ public class MemberController {
             for (FieldError fieldError : fieldErrors){
                 log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 저장 실패");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 가입 실패");
         }
 
         memberService.signup(requestDto);

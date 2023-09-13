@@ -29,7 +29,7 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         Post post = postRepository.findById(postId)
@@ -37,13 +37,13 @@ public class PostLikeService {
 
         // 본인게시글이면 좋아요 불가
         if (member.getId().equals(post.getMember().getId())) {
-            throw new CustomException(ErrorCode.CAN_NOT_MINE, null);
+            throw new CustomException(ErrorCode.CAN_NOT_YOURSELF, null);
         }
 
         // 중복 방지
         PostLike postLike = postLikeRepository.findByPost_IdAndMember_Id(postId, member.getId());
         if (postLike != null){
-            throw new CustomException(ErrorCode.OVERLAP_HEART, null);
+            throw new CustomException(ErrorCode.OVERLAP_LIKE, null);
         }
 
         // DB저장
@@ -58,17 +58,17 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         PostLike postLike = postLikeRepository.findByPost_IdAndMember_Id(postId, member.getId());
         if (postLike == null){
-            throw new CustomException(ErrorCode.NOT_FOUND_HEART, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_LIKE, null);
         }
 
 
         if (this.checkValidMember(member, postLike)) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
+            throw new CustomException(ErrorCode.NOT_YOUR_POST, null);
         }
 
         postLikeRepository.delete(postLike);

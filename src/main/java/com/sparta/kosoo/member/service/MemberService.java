@@ -72,7 +72,7 @@ public class MemberService {
         Member member = userDetails.getUser(); // 로그인 된 유저에 맞는 정보 담기
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         Member targetMember = memberRepository.findById(member.getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER, null));
+                new CustomException(ErrorCode.NOT_YOUR_POST, null));
 
         if (image != null) {
             String imageUrl = imageUploader.upload(image, "image");

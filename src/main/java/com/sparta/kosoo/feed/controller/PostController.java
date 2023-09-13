@@ -109,6 +109,6 @@ public class PostController {
     }
 
     private void checkToken(MemberDetailsImpl userDetails) {
-        if (userDetails == null) throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
+        if (userDetails == null) throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
     }
 }

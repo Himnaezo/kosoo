@@ -9,6 +9,7 @@ import com.sparta.kosoo.feed.dto.PostRequestDto;
 import com.sparta.kosoo.feed.dto.PostResponseDto;
 import com.sparta.kosoo.feed.entity.Post;
 import com.sparta.kosoo.feed.repository.PostRepository;
+import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.member.entity.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,10 @@ public class PostService {
     private final ImageUploader imageUploader;
 
     public PostResponseDto createPost(MemberDetailsImpl userDetails, PostRequestDto requestDto, MultipartFile image) throws IOException {
+        Member member = userDetails.getUser();
+        if (member == null) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+        }
         if (image != null) {
             String imageUrl = imageUploader.upload(image, "image");
             requestDto.setImageUrl(imageUrl);
@@ -64,16 +69,16 @@ public class PostService {
             }
             post.update(requestDto);
             return new PostResponseDto(post);
-        } else throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
+        } else throw new CustomException(ErrorCode.NOT_YOUR_POST, null);
     }
 
     @Transactional
     public void deletePost(MemberDetailsImpl userDetails, Long id) {
         Post post = postRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("선택한 게시물은 존재하지 않습니다."));
+                new CustomException(ErrorCode.NOT_FOUND_POST, null));
         if (post.getMember().getId().equals(userDetails.getUser().getId()) ||
                 userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             postRepository.delete(post);
-        } else throw new IllegalArgumentException("삭제 권한이 없습니다.");
+        } else throw new CustomException(ErrorCode.NOT_YOUR_POST, null);
     }
 }

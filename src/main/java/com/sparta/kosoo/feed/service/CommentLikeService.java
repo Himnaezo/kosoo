@@ -25,10 +25,9 @@ public class CommentLikeService {
 
     @Transactional
     public CommentResponseDto commentLike(MemberDetailsImpl userDetails, Long commentId) {
-        // 토큰 체크
         Member member = userDetails.getUser();
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
         // 좋아요 누른 댓글 find
         Comment comment = commentRepository.findById(commentId).orElseThrow(
@@ -36,12 +35,12 @@ public class CommentLikeService {
         );
         // 본인 댓글이면 좋아요 불가
         if (member.getId().equals(comment.getMember().getId())) {
-            throw new CustomException(ErrorCode.CAN_NOT_MINE, null);
+            throw new CustomException(ErrorCode.CAN_NOT_YOURSELF, null);
         }
         // 중복 좋아요 방지
         CommentLike commentLike = commentLikeRepository.findByComment_IdAndMember_Id(comment.getId(), member.getId());
         if (commentLike != null){
-            throw new CustomException(ErrorCode.OVERLAP_HEART, null);
+            throw new CustomException(ErrorCode.OVERLAP_LIKE, null);
         }
         // DB저장
         commentLikeRepository.save(new CommentLike(comment, member));
@@ -53,16 +52,16 @@ public class CommentLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_USER, null);
+            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         CommentLike commentLike = commentLikeRepository.findByComment_IdAndMember_Id(commentId, member.getId());
         if (commentLike == null){
-            throw new CustomException(ErrorCode.NOT_FOUND_HEART, null);
+            throw new CustomException(ErrorCode.NOT_FOUND_LIKE, null);
         }
 
         if (this.checkValidMember(member, commentLike)) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
+            throw new CustomException(ErrorCode.NOT_YOUR_POST, null);
         }
 
         commentLikeRepository.delete(commentLike);

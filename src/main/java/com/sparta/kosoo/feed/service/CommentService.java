@@ -34,14 +34,14 @@ public class CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT, null));
         if (userDetails.getUser().getId().equals(comment.getMember().getId()) || userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             comment.update(requestDto);
-        } else throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
+        } else throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         return new CommentResponseDto(comment, userDetails.getUsername());
     }
 
     public void deleteComment(Long id, MemberDetailsImpl userDetails) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT, null));
         if (userDetails.getUser().getId().equals(comment.getMember().getId()) || userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             commentRepository.delete(comment);
-        } else throw new CustomException(ErrorCode.UNAUTHORIZED_USER, null);
+        } else throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
     }
 }
