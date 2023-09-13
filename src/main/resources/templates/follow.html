@@ -2,15 +2,83 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 팔로우 멤버')}"><title></title></head>
+<style>
+    html, body {
+        height: 100%;
+        background-color: #FFFFF3;
+    }
+
+    .feed {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #f8f8f8;
+    }
+
+    .image img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .feedContent h4 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    .description p {
+        margin: 0;
+        color: #666;
+    }
+
+    .feedUser span b {
+        font-weight: bold;
+        color: #555;
+    }
+
+    #member-list {
+        display: flex; /* 목록을 가로로 배치하기 위해 flex 사용 */
+        column-count: 4; /* 열의 수를 4로 설정 */
+        flex-wrap: wrap; /* 필요할 경우 여러 행으로 나누기 */
+        justify-content: space-around; /* 요소 주위에 균등한 간격 배정 */
+        list-style-type: none; /* 기본 목록 마커 제거 */
+    }
+
+    #member-list li {
+        width: calc(25% - 1rem); /* 4열로 배치하므로 각 아이템의 너비는 25% */
+        margin-bottom: 1rem; /* 각 아이템 간격 설정 */
+        box-sizing: border-box; /* 여백 포함한 너비 계산 */
+        padding: 10px; /* 아이템 내부 패딩 추가 */
+        background-color: #f8f8f8; /* 배경색 추가 */
+        border: 1px solid #ccc; /* 테두리 추가 */
+    }
+
+
+    #post-list {
+        display: flex; /* 목록을 가로로 배치하기 위해 flex 사용 */
+        flex-wrap: wrap; /* 필요할 경우 여러 행으로 나누기 */
+        justify-content: space-around; /* 요소 주위에 균등한 간격 배정 */
+        list-style-type: none; /* 기본 목록 마커 제거 */
+        column-count: initial; /* 열의 수 초기화 */
+    }
+
+    #post-list li {
+        width: calc(25% - 1rem); /* 4열로 배치하므로 각 아이템의 너비는 25% */
+        margin-bottom: 1rem; /* 각 아이템 간격 설정 */
+        box-sizing: border-box; /* 여백 포함한 너비 계산 */
+        padding: 10px; /* 아이템 내부 패딩 추가 */
+        background-color: #D9D9D9; /* 배경색 추가 */
+        border: 1px solid #ccc; /* 테두리 추가 */
+    }
+
+</style>
 <body>
-<div class="container-fluid">
+<div class="container">
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
-    <div class="container">
-        <div class="container sub-title fs-4 fw-bold">팔로우할 고수 목록</div>
-        <ul id="member-list"></ul>
-        <div class="container sub-title fs-4 fw-bold">팔로잉 고수들 게시물 목록</div>
-        <ul id="post-list"></ul>
-    </div>
+    <h1>팔로우 찾기</h1>
+    <ul id="member-list"></ul>
+    <h1>팔로잉 게시물</h1>
+    <ul id="post-list"></ul>
 </div>
 </body>
 <script>

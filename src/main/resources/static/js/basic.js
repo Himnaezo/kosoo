@@ -63,21 +63,27 @@ function loadFeed() {
             console.log('Error:', error);
         }
     });
+
 function addHTML(post) {
+
     return `<div class="card">
               <div class="post">
-                <a class="feedHref" href="http://localhost:8080/api/posts/${post.id}">
-                    <div class="image">
-                        <img src="${post.imageUrl}" alt="post-img">
-                    </div>
-                </a>
+              
                 <div class="feedContent">
                     <a class="feedHref" href="http://localhost:8080/api/posts/${post.id}">
                         <h4>${post.title}</h4>
                         <div class="description">
                             <p>${post.content}</p>
                         </div>
-                        <div> <p> 좋아요 개수: ${post.heartNum}</p></div>
+                          <a class="feedHref" href="http://localhost:8080/api/posts/${post.id}">
+                            <div class="image">
+                             <img src="${post.imageUrl}" alt="post-img">
+                             </div>
+                            </a>
+                        <div>
+                             <p><i class="fas fa-heart"></i> ${post.heartNum}</p>
+                        </div>
+
                     </a>
                     <div class="subInfo">
                         <span> ${post.modifiedAt} </span>
