@@ -6,7 +6,7 @@
     font-style: normal;
 }
 * {font-family: 'GmarketSansMedium', sans-serif;}*/
-
+ul, li {text-decoration: none;}
 *, html, body {
     font-family: 'Noto Sans KR', sans-serif;
     margin: 0;
@@ -57,6 +57,9 @@ a {
 
 .container-xl {
     width: 45%;
+}
+.container-xxl {
+    width: 65%;
 }
 
 .form-control {
