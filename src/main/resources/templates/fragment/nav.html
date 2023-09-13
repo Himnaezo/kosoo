@@ -3,8 +3,8 @@
 <body>
 <div th:fragment="Nav">
   <div class="header">
-    <h2><a th:href="@{/}">KoSoo</a></h2>
-    <div class="nav">
+    <div class="fs-2 fw-bold logo"><a th:href="@{/}">KoSoo</a></div>
+    <div class="nav fw-bold">
       <ul>
         <li><a th:href="@{/posts}" sec:authorize="isAuthenticated()">게시글 작성</a></li>
         <li><a th:href="@{/follows}" sec:authorize="isAuthenticated()">팔로우할 고수 찾기</a></li>

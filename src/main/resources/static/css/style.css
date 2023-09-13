@@ -5,19 +5,20 @@
     font-style: normal;
 }
 
-*{font-family: 'GmarketSansMedium', sans-serif;}
+* {font-family: 'GmarketSansMedium', sans-serif;}
 
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     background-color: #FFFFF3;
+    color: #566270;
 }
 
 /* 전체 링크 */
 a {
     text-decoration: none;
-    color: black;
+    color: #566270;
 }
 
 /* header 시작 */
@@ -30,17 +31,25 @@ a {
     align-items: center;
 }
 
-/* 로고 */
-.header h1 a {
+/* 로고 & 네비게이션 */
+.logo {
     font-weight: 700;
 }
+.logo:hover {
+    color: #A593E0;
+}
 
-/* 네비게이션 */
 .nav ul li{
     display: inline-block;
     margin: 0 10px;
 }
 
 .nav ul li a:hover {
-    color: #1fd;
+    color: #A593E0;
+}
+
+.sub-title {
+    margin-left: 30px;
+    margin-top: 50px;
+    margin-bottom: 150px;
 }
