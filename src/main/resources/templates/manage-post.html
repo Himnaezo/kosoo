@@ -3,10 +3,10 @@
 <!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 게시글 수정')}"><title></title></head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
-    <h1>게시물 수정</h1>
-    <div class="col-md-12">
+    <div class="container">
+        <div class="container sub-title fs-4 fw-bold">게시글 수정</div>
         <div class="col-md-4">
             <form>
                 <div class="form-group">

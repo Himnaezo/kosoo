@@ -3,9 +3,12 @@
 <!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 프로필 수정')}"><title></title></head>
 <body>
-<div class="container">
+<div class="container-fluid">
 	<div th:replace="~{fragment/nav :: Nav}">insert</div>
-	<div id="profile"></div>
+	<div class="container">
+			<div class="container sub-title fs-4 fw-bold">마이페이지</div>
+		<div id="profile"></div>
+	</div>
 </div>
 </body>
 <script type="text/javascript" src="/js/basic.js" ></script>

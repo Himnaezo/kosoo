@@ -3,60 +3,62 @@
 <!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 게시글 상세')}"><title></title></head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
-    <h1>글상세 페이지</h1>
-    <div class="post">
-        <div class="profile-image">
-            <img th:src="${post.imageUrl}" alt="profile-img">
-        </div>
-        <div class="post-contents">
-            <h2 th:text="${post.title}"></h2>
-            <p th:text="${post.content}"></p>
-            <div class="post-date">
-                <span th:text="${post.modifiedAt}"> </span>
+    <div class="container">
+        <div class="container sub-title fs-4 fw-bold">게시글 상세</div>
+        <div class="post">
+            <div class="profile-image">
+                <img th:src="${post.imageUrl}" alt="profile-img">
             </div>
-        </div>
-        <div class="post-writer">
-            <span>
-                <b th:text="${post.username}"></b>
-            </span>
-        </div>
-        <div style="display: flex">
-            <button onclick="modifyPost()"> 수정</button>
-            <button id="btn-delete" onclick="deletePost()">삭제</button>
-        </div>
-        <br>
-        <div class="post-like">
-            <span>게시글 좋아요 개수:  </span>
-            <span th:text="${post.heartNum}"></span>
-            <button class="btn-post-like" onclick="postLike()">좋아요</button>
-            <button class="btn-post-like" onclick="postDislike()">좋아요 취소</button>
-        </div>
-        <br>
-        <div id="form-commentInfo">
-            <div id="comment-count">댓글 수:  <span id="count" th:text="${#lists.size(post.commentList)}"></span></div>
-            <input id="comment-input" placeholder="댓글을 입력해 주세요.">
-            <button id="submit" onclick="create()">등록</button>
-        </div>
-        <div id=comments>
-            <ul>
-                <li th:each="comment : ${post.commentList}">
-                    <div>
-                        <span th:text="${comment.content}"></span>
-                    </div>
-                    <span th:text="${comment.username}">&nbsp;&nbsp;</span>
-                    <span th:text="${comment.modifiedAt}"></span>
-                    <input th:id="'comment-modify-input-' + ${comment.id}" placeholder="수정하실 댓글내용을 입력해 주세요.">
-                    <button id="modify-btn" th:comment="${comment.id}" th:onclick="modifyComment(this.getAttribute('comment'))">수정</button>
-                    <button id="delete-btn" th:comment="${comment.id}" th:onclick="deleteComment(this.getAttribute('comment'))">삭제</button>
-                    <br>
-                    <span>댓글 좋아요 수 :  </span>
-                    <span th:text="${comment.heartNum}"></span>
-                    <button th:comment="${comment.id}" th:onclick="commentLike(this.getAttribute('comment'))">좋아요</button>
-                    <button th:comment="${comment.id}" th:onclick="commentDislike(this.getAttribute('comment'))">좋아요 취소</button>
-                </li>
-            </ul>
+            <div class="post-contents">
+                <h2 th:text="${post.title}"></h2>
+                <p th:text="${post.content}"></p>
+                <div class="post-date">
+                    <span th:text="${post.modifiedAt}"> </span>
+                </div>
+            </div>
+            <div class="post-writer">
+                <span>
+                    <b th:text="${post.username}"></b>
+                </span>
+            </div>
+            <div style="display: flex">
+                <button onclick="modifyPost()"> 수정</button>
+                <button id="btn-delete" onclick="deletePost()">삭제</button>
+            </div>
+            <br>
+            <div class="post-like">
+                <span>게시글 좋아요 개수:  </span>
+                <span th:text="${post.heartNum}"></span>
+                <button class="btn-post-like" onclick="postLike()">좋아요</button>
+                <button class="btn-post-like" onclick="postDislike()">좋아요 취소</button>
+            </div>
+            <br>
+            <div id="form-commentInfo">
+                <div id="comment-count">댓글 수:  <span id="count" th:text="${#lists.size(post.commentList)}"></span></div>
+                <input id="comment-input" placeholder="댓글을 입력해 주세요.">
+                <button id="submit" onclick="create()">등록</button>
+            </div>
+            <div id=comments>
+                <ul>
+                    <li th:each="comment : ${post.commentList}">
+                        <div>
+                            <span th:text="${comment.content}"></span>
+                        </div>
+                        <span th:text="${comment.username}">&nbsp;&nbsp;</span>
+                        <span th:text="${comment.modifiedAt}"></span>
+                        <input th:id="'comment-modify-input-' + ${comment.id}" placeholder="수정하실 댓글내용을 입력해 주세요.">
+                        <button id="modify-btn" th:comment="${comment.id}" th:onclick="modifyComment(this.getAttribute('comment'))">수정</button>
+                        <button id="delete-btn" th:comment="${comment.id}" th:onclick="deleteComment(this.getAttribute('comment'))">삭제</button>
+                        <br>
+                        <span>댓글 좋아요 수 :  </span>
+                        <span th:text="${comment.heartNum}"></span>
+                        <button th:comment="${comment.id}" th:onclick="commentLike(this.getAttribute('comment'))">좋아요</button>
+                        <button th:comment="${comment.id}" th:onclick="commentDislike(this.getAttribute('comment'))">좋아요 취소</button>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

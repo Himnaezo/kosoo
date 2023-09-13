@@ -3,30 +3,23 @@
 <!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 로그인 멤버')}"><title></title></head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
-    <h1>로그인 페이지</h1>
-    <div id="input-username">
-        <label for="username"></label>
-        <input type="text" id="username" placeholder="Username">
+    <div class="container">
+        <div class="container sub-title fs-4 fw-bold">로그인</div>
+        <div id="input-username">
+            <label for="username"></label>
+            <input type="text" id="username" placeholder="Username">
+        </div>
+        <div id="input-password">
+            <label for="password"></label>
+            <input type="password" id="password" placeholder="Password">
+        </div>
+        <div>
+            <button id="login-btn" onclick="login()">로그인</button>
+            <button id="signup-btn" onclick="location.href= host + '/signup'">회원가입</button>
+        </div>
     </div>
-    <div id="input-password">
-        <label for="password"></label>
-        <input type="password" id="password" placeholder="Password">
-    </div>
-    <div>
-        <button id="login-btn" onclick="login()">로그인</button>
-        <button id="signup-btn" onclick="location.href= host + '/signup'">회원가입</button>
-    </div>
-    <!-- <div>
-        <h2>소셜 로그인</h2>
-        <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">
-            Google Login
-        </a>
-        <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">
-            Naver Login
-        </a>
-    </div> -->
 </div>
 </body>
 <script>

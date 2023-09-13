@@ -3,33 +3,39 @@
 <!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 프로필수정 멤버')}"><title></title></head>
 <body>
-<div id="passwordForm">
-    <label for="password">비밀번호</label>
-    <input type="password" class="from=control" id="password" placeholder="비밀번호를 입력하세요">
-    <button onclick="checkPassword()">비밀번호 확인</button>
-</div>
-<div class="col-md-12" id="modifyForm" style="display: none">
-    <div>
-        <label for="file1">이미지</label>
-        <input type="file" id="file1" name="file1">
-    </div>
-    <div class="col-md-4">
-        <form>
-            <div class="form-group">
-                <label for="username">이름</label>
-                <input type="text" class="form-control" id="username" placeholder="변경할 이름을 입력하세요">
+<div class="container-fluid">
+    <div th:replace="~{fragment/nav :: Nav}">insert</div>
+    <div class="container">
+        <div class="container sub-title fs-4 fw-bold">정보수정</div>
+        <div id="passwordForm">
+            <label for="password">비밀번호</label>
+            <input type="password" class="from=control" id="password" placeholder="비밀번호를 입력하세요">
+            <button onclick="checkPassword()">비밀번호 확인</button>
+        </div>
+        <div class="col-md-12" id="modifyForm" style="display: none">
+            <div>
+                <label for="file1">이미지</label>
+                <input type="file" id="file1" name="file1">
             </div>
-            <div class="form-group">
-                <label for="modifyPassword">비밀번호</label>
-                <input type="password" id="modifyPassword" placeholder="변경할 비밀번호를 입력하세요">
+            <div class="col-md-4">
+                <form>
+                    <div class="form-group">
+                        <label for="username">이름</label>
+                        <input type="text" class="form-control" id="username" placeholder="변경할 이름을 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="modifyPassword">비밀번호</label>
+                        <input type="password" id="modifyPassword" placeholder="변경할 비밀번호를 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="introduce">소개</label>
+                        <input type="text" class="form-control" id="introduce" placeholder="소개를 입력하세요">
+                    </div>
+                </form>
+                <button type="button" class="btn btn-primary" onclick="back()">취소</button>
+                <button type="button" class="btn btn-primary" id="btn-save" onclick="modify()">수정</button>
             </div>
-            <div class="form-group">
-                <label for="introduce">소개</label>
-                <input type="text" class="form-control" id="introduce" placeholder="소개를 입력하세요">
-            </div>
-        </form>
-        <button type="button" class="btn btn-primary" onclick="back()">취소</button>
-        <button type="button" class="btn btn-primary" id="btn-save" onclick="modify()">수정</button>
+        </div>
     </div>
 </div>
 </body>
