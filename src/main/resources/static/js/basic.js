@@ -65,7 +65,7 @@ function loadFeed() {
 
 function addHTML(post) {
 
-    return `<div class="card">
+    return `<div class="card customCard">
               <div class="post">
               
                 <div class="feedContent">
