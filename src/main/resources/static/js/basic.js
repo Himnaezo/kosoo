@@ -23,18 +23,17 @@ function loadProfile() {
         success: function (response) {
             $('#profile').empty();
             $('#profile').append(`
-                <div class="feed">
-                    <div><span>프로필</span></div>
-                    <div class="image">
-                        <img src="${response.imageUrl}">
-                    </div>
-                     <div class="feedContent">
+                <div class="feed card" style="width: 18rem;">
+                    <img src="${response.imageUrl}" class="image card-img-top" alt="프로필사진">
+                     <div class="feedContent card-body">
                         <h4>${response.username}</h4>
-                        <div class="description">
+                        <div class="description card-text">
                             <p>${response.introduce}</p>
                         </div>
                     </div>
-                    <button onclick="modifyProfile()">프로필 수정</button>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3 me-3">
+                      <button type="button" class="btn btn-submit" onclick="modifyProfile()">프로필 수정</button>
+                    </div>
                 </div>
             `)
         },
