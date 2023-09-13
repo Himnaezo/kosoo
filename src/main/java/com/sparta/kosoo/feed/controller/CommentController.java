@@ -3,7 +3,7 @@ package com.sparta.kosoo.feed.controller;
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.dto.ApiResult;
 import com.sparta.common.error.ErrorCode;
-import com.sparta.common.error.exception.CustomException;
+import com.sparta.common.error.exceptionn.CommonException;
 import com.sparta.kosoo.feed.dto.CommentRequestDto;
 import com.sparta.kosoo.feed.dto.CommentResponseDto;
 import com.sparta.kosoo.feed.dto.CommentUpdateRequestDto;
@@ -54,7 +54,7 @@ public class CommentController {
     }
 
     private void checkToken(MemberDetailsImpl userDetails) {
-        if (userDetails == null) throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+        if (userDetails == null) throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
     }
 
 }

@@ -3,7 +3,7 @@ package com.sparta.kosoo.feed.service;
 
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.error.ErrorCode;
-import com.sparta.common.error.exception.CustomException;
+import com.sparta.common.error.exceptionn.CommonException;
 import com.sparta.common.util.ImageUploader;
 import com.sparta.kosoo.feed.dto.PostRequestDto;
 import com.sparta.kosoo.feed.dto.PostResponseDto;
@@ -31,7 +31,7 @@ public class PostService {
     public PostResponseDto createPost(MemberDetailsImpl userDetails, PostRequestDto requestDto, MultipartFile image) throws IOException {
         Member member = userDetails.getUser();
         if (member == null) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+            throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
         if (image != null) {
             String imageUrl = imageUploader.upload(image, "image");
@@ -54,13 +54,13 @@ public class PostService {
 
     public PostResponseDto readPost(Long id) {
         return new PostResponseDto(postRepository.findById(id).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_POST, null)));
+                new CommonException(ErrorCode.NOT_FOUND_POST, null)));
     }
 
     @Transactional
     public PostResponseDto updatePost(MemberDetailsImpl userDetails, Long id, PostRequestDto requestDto, MultipartFile image) throws IOException {
         Post post = postRepository.findById(id).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_POST, null));
+                new CommonException(ErrorCode.NOT_FOUND_POST, null));
         if (post.getMember().getId().equals(userDetails.getUser().getId()) ||
                 userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             if (image != null) {
@@ -69,16 +69,16 @@ public class PostService {
             }
             post.update(requestDto);
             return new PostResponseDto(post);
-        } else throw new CustomException(ErrorCode.NOT_YOUR_POST, null);
+        } else throw new CommonException(ErrorCode.NOT_YOUR_POST, null);
     }
 
     @Transactional
     public void deletePost(MemberDetailsImpl userDetails, Long id) {
         Post post = postRepository.findById(id).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_POST, null));
+                new CommonException(ErrorCode.NOT_FOUND_POST, null));
         if (post.getMember().getId().equals(userDetails.getUser().getId()) ||
                 userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             postRepository.delete(post);
-        } else throw new CustomException(ErrorCode.NOT_YOUR_POST, null);
+        } else throw new CommonException(ErrorCode.NOT_YOUR_POST, null);
     }
 }

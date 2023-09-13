@@ -2,7 +2,7 @@ package com.sparta.kosoo.feed.service;
 
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.error.ErrorCode;
-import com.sparta.common.error.exception.CustomException;
+import com.sparta.common.error.exceptionn.CommonException;
 import com.sparta.kosoo.feed.dto.CommentRequestDto;
 import com.sparta.kosoo.feed.dto.CommentResponseDto;
 import com.sparta.kosoo.feed.dto.CommentUpdateRequestDto;
@@ -24,24 +24,24 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     public CommentResponseDto createComment(MemberDetailsImpl userDetails, CommentRequestDto requestDto) {
-        Post post = postRepository.findById(requestDto.getFeedId()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST, null));
+        Post post = postRepository.findById(requestDto.getFeedId()).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_POST, null));
         Comment comment = new Comment(requestDto.getContent(), post, userDetails.getUser());
         commentRepository.save(comment);
         return new CommentResponseDto(comment, userDetails.getUsername());
     }
 
     public CommentResponseDto updateComment(Long id, MemberDetailsImpl userDetails, CommentUpdateRequestDto requestDto) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT, null));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_COMMENT, null));
         if (userDetails.getUser().getId().equals(comment.getMember().getId()) || userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             comment.update(requestDto);
-        } else throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+        } else throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         return new CommentResponseDto(comment, userDetails.getUsername());
     }
 
     public void deleteComment(Long id, MemberDetailsImpl userDetails) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT, null));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_COMMENT, null));
         if (userDetails.getUser().getId().equals(comment.getMember().getId()) || userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             commentRepository.delete(comment);
-        } else throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+        } else throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
     }
 }

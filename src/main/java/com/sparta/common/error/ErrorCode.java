@@ -11,7 +11,7 @@ public enum ErrorCode {
 
     INVALID_TOKEN(403, "토큰이 유효하지 않습니다. 다시 로그인 해주세요."),
     UNAUTHORIZED_MEMBER(400, "로그인 또는 회원가입이 필요합니다."),
-    //    NOT_FOUND_MEMBER(403, "회원가입이 필요합니다."),
+    NOT_FOUND_MEMBER(403, "사용자를 찾을 수 없습니다."),
     IN_USED_ID(400, "중복된 ID 입니다."),
     WRONG_PASSWORD(400, "비밀번호를 다시 입력바랍니다."),
 

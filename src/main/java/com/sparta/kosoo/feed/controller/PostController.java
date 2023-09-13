@@ -3,7 +3,7 @@ package com.sparta.kosoo.feed.controller;
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.dto.ApiResult;
 import com.sparta.common.error.ErrorCode;
-import com.sparta.common.error.exception.CustomException;
+import com.sparta.common.error.exceptionn.CommonException;
 import com.sparta.kosoo.feed.dto.PostRequestDto;
 import com.sparta.kosoo.feed.dto.PostResponseDto;
 import com.sparta.kosoo.feed.service.PostLikeService;
@@ -90,7 +90,7 @@ public class PostController {
         try {
             PostResponseDto responseDto = postLikeService.postLike(userDetails, postId);
             return ResponseEntity.ok(responseDto);
-        } catch (CustomException e) {
+        } catch (CommonException e) {
             // CustomException 발생 시, 적절한 에러 응답 반환
             return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new ApiResult(e.getMessage(), e.getErrorCode().getHttpStatus()));
         }
@@ -102,13 +102,13 @@ public class PostController {
         try {
             ApiResult result = postLikeService.deletePostLike(userDetails, postId);
             return ResponseEntity.ok(result);
-        } catch (CustomException e) {
+        } catch (CommonException e) {
             // CustomException 발생 시, 적절한 에러 응답 반환
             return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(new ApiResult(e.getMessage(), e.getErrorCode().getHttpStatus()));
         }
     }
 
     private void checkToken(MemberDetailsImpl userDetails) {
-        if (userDetails == null) throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+        if (userDetails == null) throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
     }
 }

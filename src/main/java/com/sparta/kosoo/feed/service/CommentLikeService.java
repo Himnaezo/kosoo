@@ -3,7 +3,7 @@ package com.sparta.kosoo.feed.service;
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.dto.ApiResult;
 import com.sparta.common.error.ErrorCode;
-import com.sparta.common.error.exception.CustomException;
+import com.sparta.common.error.exceptionn.CommonException;
 import com.sparta.kosoo.feed.dto.CommentResponseDto;
 import com.sparta.kosoo.feed.entity.Comment;
 import com.sparta.kosoo.feed.entity.CommentLike;
@@ -27,20 +27,20 @@ public class CommentLikeService {
     public CommentResponseDto commentLike(MemberDetailsImpl userDetails, Long commentId) {
         Member member = userDetails.getUser();
         if (member == null) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+            throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
         // 좋아요 누른 댓글 find
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new CustomException(ErrorCode.NOT_FOUND_COMMENT, null)
+                () -> new CommonException(ErrorCode.NOT_FOUND_COMMENT, null)
         );
         // 본인 댓글이면 좋아요 불가
         if (member.getId().equals(comment.getMember().getId())) {
-            throw new CustomException(ErrorCode.CAN_NOT_YOURSELF, null);
+            throw new CommonException(ErrorCode.CAN_NOT_YOURSELF, null);
         }
         // 중복 좋아요 방지
         CommentLike commentLike = commentLikeRepository.findByComment_IdAndMember_Id(comment.getId(), member.getId());
         if (commentLike != null){
-            throw new CustomException(ErrorCode.OVERLAP_LIKE, null);
+            throw new CommonException(ErrorCode.OVERLAP_LIKE, null);
         }
         // DB저장
         commentLikeRepository.save(new CommentLike(comment, member));
@@ -52,16 +52,16 @@ public class CommentLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+            throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         CommentLike commentLike = commentLikeRepository.findByComment_IdAndMember_Id(commentId, member.getId());
         if (commentLike == null){
-            throw new CustomException(ErrorCode.NOT_FOUND_LIKE, null);
+            throw new CommonException(ErrorCode.NOT_FOUND_LIKE, null);
         }
 
         if (this.checkValidMember(member, commentLike)) {
-            throw new CustomException(ErrorCode.NOT_YOUR_POST, null);
+            throw new CommonException(ErrorCode.NOT_YOUR_POST, null);
         }
 
         commentLikeRepository.delete(commentLike);

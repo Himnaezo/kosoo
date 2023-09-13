@@ -3,7 +3,7 @@ package com.sparta.kosoo.feed.service;
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.dto.ApiResult;
 import com.sparta.common.error.ErrorCode;
-import com.sparta.common.error.exception.CustomException;
+import com.sparta.common.error.exceptionn.CommonException;
 import com.sparta.kosoo.feed.dto.PostResponseDto;
 import com.sparta.kosoo.feed.entity.Post;
 import com.sparta.kosoo.feed.entity.PostLike;
@@ -29,21 +29,21 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+            throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST, null));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_POST, null));
 
         // 본인게시글이면 좋아요 불가
         if (member.getId().equals(post.getMember().getId())) {
-            throw new CustomException(ErrorCode.CAN_NOT_YOURSELF, null);
+            throw new CommonException(ErrorCode.CAN_NOT_YOURSELF, null);
         }
 
         // 중복 방지
         PostLike postLike = postLikeRepository.findByPost_IdAndMember_Id(postId, member.getId());
         if (postLike != null){
-            throw new CustomException(ErrorCode.OVERLAP_LIKE, null);
+            throw new CommonException(ErrorCode.OVERLAP_LIKE, null);
         }
 
         // DB저장
@@ -58,17 +58,17 @@ public class PostLikeService {
         Member member = userDetails.getUser();
 
         if (member == null) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_MEMBER, null);
+            throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
 
         PostLike postLike = postLikeRepository.findByPost_IdAndMember_Id(postId, member.getId());
         if (postLike == null){
-            throw new CustomException(ErrorCode.NOT_FOUND_LIKE, null);
+            throw new CommonException(ErrorCode.NOT_FOUND_LIKE, null);
         }
 
 
         if (this.checkValidMember(member, postLike)) {
-            throw new CustomException(ErrorCode.NOT_YOUR_POST, null);
+            throw new CommonException(ErrorCode.NOT_YOUR_POST, null);
         }
 
         postLikeRepository.delete(postLike);
