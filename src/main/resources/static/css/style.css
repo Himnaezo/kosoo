@@ -1,13 +1,14 @@
-@font-face {
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;700;900&display=swap');
+/*@font-face {
     font-family: 'GmarketSansMedium';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
+* {font-family: 'GmarketSansMedium', sans-serif;}*/
 
-* {font-family: 'GmarketSansMedium', sans-serif;}
-
-body {
+*, html, body {
+    font-family: 'Noto Sans KR', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -15,7 +16,6 @@ body {
     color: #566270;
 }
 
-/* 전체 링크 */
 a {
     text-decoration: none;
     color: #566270;
@@ -53,3 +53,51 @@ a {
     margin-top: 50px;
     margin-bottom: 150px;
 }
+
+.container-xl {
+    width: 45%;
+}
+
+.form-control {
+    border-radius: 5px !important;
+    border: none;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    position: relative;
+    font-size: 16px;
+}
+
+.form-control:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+input::placeholder {
+    padding-left: 1.5rem !important;
+    color: #b9b9b9;
+    font-size: 10px;
+}
+
+.btn-edit {
+    background-color: #E0E3DA;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+}
+.btn-edit:hover {
+    border: solid 3px #E0E3DA;
+    color: #566270 !important;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.btn-submit {
+    background-color: #A593E0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+.btn-submit:hover {
+    border: solid 3px #A593E0;
+    color: #566270 !important;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
