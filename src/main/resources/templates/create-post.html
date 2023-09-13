@@ -7,23 +7,25 @@
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
     <div class="container">
         <div class="container sub-title fs-4 fw-bold">게시글 작성</div>
-        <div class="col-md-4">
+        <div class="container-xl">
             <form>
-                <div class="form-group">
-                    <label for ="title">제목</label>
+                <div id="input-title" class="input-group mb-3">
+                    <label for="title"></label>
                     <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
                 </div>
-                <div class="form-group">
-                    <label for ="title">내용</label>
-                    <label for="content"></label><textarea class="form-control" id="content" placeholder="내용을 입력하세요"></textarea>
+                <div id="input-content" class="input-group mb-3">
+                    <label for="content"></label>
+                    <textarea class="form-control" id="content" rows="5" placeholder="내용을 입력하세요"></textarea>
                 </div>
-                <div>
-                    <label for="PostImage">이미지</label>
-                    <input type="file" id="PostImage" name="PostImage">
+                <div id="input-image" class="input-group mb-4">
+                    <label for="PostImage" class="form-label"></label>
+                    <input type="file" id="PostImage" class="form-control" multiple>
                 </div>
             </form>
-            <button type="button" class="btn btn-primary"  onclick="window.location.href='http://localhost:8080'">취소</button>
-            <button type="button" class="btn btn-primary" id="btn-save" onclick="createPost()">등록</button>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button onclick="window.location.href='http://localhost:8080'" type="button" class="btn btn-cancel">취소</button>
+                <button id="btn-save" onclick="createPost()" type="button" class="btn btn-submit">등록</button>
+            </div>
         </div>
     </div>
 </div>
