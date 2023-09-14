@@ -2,11 +2,13 @@ package com.sparta.kosoo.member.controller;
 
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.dto.ApiResult;
+import com.sparta.common.util.JwtUtil;
 import com.sparta.kosoo.member.dto.*;
 import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.member.entity.MemberRole;
 import com.sparta.kosoo.member.service.MemberService;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final JwtUtil jwtUtil;
 
     @ResponseBody
     @PostMapping("/signup")
@@ -44,6 +47,12 @@ public class MemberController {
 
         memberService.signup(requestDto);
         return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        jwtUtil.expireCookie(response);
+        return "redirect:/";
     }
 
     @ResponseBody
