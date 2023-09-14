@@ -5,41 +5,39 @@
 <body>
 <div class="container-fluid">
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
-    <div class="container">
-        <div class="container sub-title fs-4 fw-bold">정보수정</div>
-        <div class="container-xl">
+    <div class="text-center sub-title fs-4 fw-bold">프로필 수정 페이지</div>
 
-            <div id="passwordForm">
-                <label for="password"></label>
-                <input type="password" class="form-control p-2 mb-3" id="password" placeholder="비밀번호를 입력하세요">
-                <div class="d-grid">
-                    <button id="btn" onclick="checkPassword()" type="button" class="btn btn-submit p-2">비밀번호 확인</button>
-                </div>
+    <div class="container container-30">
+        <div id="passwordForm">
+            <label for="password"></label>
+            <input type="password" class="form-control p-2 mb-3" id="password" placeholder="비밀번호를 입력하세요">
+            <div class="d-grid">
+                <button id="btn" onclick="checkPassword()" type="button" class="btn btn-submit p-2">비밀번호 확인</button>
             </div>
+        </div>
 
-            <div id="modifyForm" style="display: none">
-                <div id="input-image" class="input-group mb-4">
-                    <label for="file1" class="form-label"></label>
-                    <input type="file" id="file1" class="form-control p-2" multiple>
+        <div id="modifyForm" style="display: none">
+            <div id="input-image" class="input-group mb-4">
+                <label for="file1" class="form-label"></label>
+                <input type="file" id="file1" class="form-control p-2" multiple>
+            </div>
+            <form>
+                <div class="input-group mb-3">
+                    <label for="username"></label>
+                    <input type="text" class="form-control p-2" id="username" placeholder="변경할 이름을 입력하세요">
                 </div>
-                <form>
-                    <div class="input-group mb-3">
-                        <label for="username"></label>
-                        <input type="text" class="form-control p-2" id="username" placeholder="변경할 이름을 입력하세요">
-                    </div>
-                    <div class="input-group mb-3">
-                        <label for="modifyPassword"></label>
-                        <input type="password" class="form-control p-2" id="modifyPassword" placeholder="변경할 비밀번호를 입력하세요">
-                    </div>
-                    <div class="input-group mb-3">
-                        <label for="introduce"></label>
-                        <input type="text" class="form-control p-2" id="introduce" placeholder="소개를 입력하세요">
-                    </div>
-                </form>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="button" class="btn btn-cancel" onclick="back()">취소</button>
-                    <button type="button" class="btn btn-submit" id="btn-save" onclick="modify()">수정</button>
+                <div class="input-group mb-3">
+                    <label for="modifyPassword"></label>
+                    <input type="password" class="form-control p-2" id="modifyPassword" placeholder="변경할 비밀번호를 입력하세요">
                 </div>
+                <div class="input-group mb-3">
+                    <label for="introduce"></label>
+                    <input type="text" class="form-control p-2" id="introduce" placeholder="소개를 입력하세요">
+                </div>
+            </form>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-cancel" onclick="back()">취소</button>
+                <button type="button" class="btn btn-submit" id="btn-save" onclick="modify()">수정</button>
             </div>
         </div>
     </div>

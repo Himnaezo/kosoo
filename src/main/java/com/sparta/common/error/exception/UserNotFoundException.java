@@ -1,4 +1,4 @@
-package com.sparta.common.error.exceptionn;
+package com.sparta.common.error.exception;
 
 import com.sparta.common.error.ErrorCode;
 import lombok.Getter;

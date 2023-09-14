@@ -5,94 +5,91 @@
 <body>
 <div class="container-fluid">
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
+    <div class="text-center sub-title fs-4 fw-bold">게시글 상세 페이지</div>
+
     <div class="container">
-        <div class="sub-title fs-4 fw-bold">게시글 상세</div>
-        <div class="container-xxl">
-            <div class="post">
-                <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-3">
-
-                    <div type="text" class="position-relative fw-bold">
-                        좋아요
-                        <span th:text="${post.heartNum}" class="position-absolute top-0 start-31 translate-middle badge rounded-pill text-bg-kosoo">
-                            <span class="visually-hidden">게시글 좋아요 개수</span>
-                        </span>
-                        <i class="ms-5 fa-solid fa-heart fa-beat fa-xl" style="color: #A593E0;" onclick="postLike()"></i>
-                        <i class="ms-2 fa-solid fa-heart-crack fa-xl" style="color: #E0E3DA;" onclick="postDislike()"></i>
-                    </div>
-
-                    <span class="ms-5 fw-bold" th:text="${post.username}"></span>
-                    <span th:text="${post.modifiedAt}"> </span>
-
+        <div class="post">
+            <div class="fs-4 fw-bold mb-5" th:text="${post.title}"></div>
+            <hr>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-5">
+                <div type="text" class="position-relative fs-6 fw-bold">
+                    좋아요
+                    <span th:text="${post.heartNum}" class="position-absolute top-0 start-31 translate-middle badge rounded-pill text-bg-kosoo">
+                        <span class="visually-hidden">게시글 좋아요 개수</span>
+                    </span>
+                    <i class="ms-5 fa-solid fa-heart fa-beat fa-xl" style="color: #A593E0;" onclick="postLike()"></i>
+                    <i class="ms-2 fa-solid fa-heart-crack fa-xl" style="color: #E0E3DA;" onclick="postDislike()"></i>
                 </div>
-
-
-                <div class="post-contents mb-5">
-                    <div class="fs-2 mb-5" th:text="${post.title}"></div>
-                    <img class="img-fluid mb-5" th:src="${post.imageUrl}" alt="프로필 이미지">
-                    <div class="fs-4" th:text="${post.content}"></div>
-                </div>
-
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
-                    <button type="button" class="btn btn-edit" onclick="modifyPost()"> 수정</button>
-                    <button type="button" class="btn btn-cancel" id="btn-delete" onclick="deletePost()">삭제</button>
-                </div>
-
-                <br>
-
-                <div id=comments>
-                    <div class="d-grid gap-2 d-flex justify-content-start">
-                        <div type="text" class="position-relative fw-bold">
-                            Comment
-                            <span id="count" th:text="${#lists.size(post.commentList)}" class="position-absolute top-0 start-106 translate-middle badge rounded-pill text-bg-kosoo">
-                                <span class="visually-hidden">댓글 개수</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <ul>
-                        <li th:each="comment : ${post.commentList}">
-                            <span th:text="${comment.username}">&nbsp;&nbsp;</span>
-                            <span th:text="${comment.modifiedAt}"></span>
-
-                            <div>
-                                <span th:text="${comment.content}"></span>
-                            </div>
-                            <label><textarea class="bg-transparent border-0" th:id="'comment-modify-input-' + ${comment.id}" placeholder="수정하실 댓글내용을 입력해 주세요."></textarea></label>
-
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <button type="button" class="btn btn-edit btn-comment-modify" id="modify-btn" th:comment="${comment.id}" th:onclick="modifyComment(this.getAttribute('comment'))">수정</button>
-                                <button type="button" class="btn btn-cancel btn-comment-delete"  id="delete-btn" th:comment="${comment.id}" th:onclick="deleteComment(this.getAttribute('comment'))">삭제</button>
-                            </div>
-
-                            <div type="text" class="position-relative fw-bold fs-6">
-                                좋아요
-                                <span th:text="${comment.heartNum}" class="position-absolute top-0 start-7 translate-middle badge rounded-pill text-kosoo bg-light">
-                                    <span class="visually-hidden">댓글 좋아요 개수</span>
-                                </span>
-                                <i class="fa-solid fa-heart fa-beat fa ms-5" style="color: #A593E0;" th:comment="${comment.id}" th:onclick="commentLike(this.getAttribute('comment'))"></i>
-                                <i class="fa-solid fa-heart-crack fa ms-2" style="color: #E0E3DA;" th:comment="${comment.id}" th:onclick="commentDislike(this.getAttribute('comment'))"></i>
-                            </div>
-
-                            <hr>
-                        </li>
-                    </ul>
-                </div>
-
-                <div id="form-commentInfo" class="mb-5">
-                    <div class="mb-3">
-                        <label for="comment-input"></label>
-                        <input type="text" class="form-control p-2" id="comment-input" placeholder="댓글을 입력해 주세요.">
-                    </div>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="button" class="btn btn-submit btn-comment" id="submit" onclick="create()">등록</button>
-                    </div>
-                </div>
-
+                <span class="ms-5 me-2 fw-bold fs-6" th:text="${post.username}"></span>
+                <span class="fs-6" th:text="${post.modifiedAt}"> </span>
             </div>
+
+
+            <div class="post-contents mb-5">
+                <img class="img-fluid mb-5" th:src="${post.imageUrl}" alt="프로필 이미지">
+                <div class="fs-4" th:text="${post.content}"></div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
+                <button type="button" class="btn btn-edit" onclick="modifyPost()"> 수정</button>
+                <button type="button" class="btn btn-cancel" id="btn-delete" onclick="deletePost()">삭제</button>
+            </div>
+
+            <br>
+
+            <div id=comments>
+                <div class="d-grid gap-2 d-flex justify-content-start">
+                    <div type="text" class="position-relative fw-bold">
+                        Comment
+                        <span id="count" th:text="${#lists.size(post.commentList)}" class="position-absolute top-0 start-106 translate-middle badge rounded-pill text-bg-kosoo">
+                            <span class="visually-hidden">댓글 개수</span>
+                        </span>
+                    </div>
+                </div>
+
+                <hr>
+
+                <ul>
+                    <li th:each="comment : ${post.commentList}">
+                        <span th:text="${comment.username}">&nbsp;&nbsp;</span>
+                        <span th:text="${comment.modifiedAt}"></span>
+
+                        <div>
+                            <span th:text="${comment.content}"></span>
+                        </div>
+                        <label><textarea class="bg-transparent border-0" th:id="'comment-modify-input-' + ${comment.id}" placeholder="수정하실 댓글내용을 입력해 주세요."></textarea></label>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="button" class="btn btn-edit btn-comment-modify" id="modify-btn" th:comment="${comment.id}" th:onclick="modifyComment(this.getAttribute('comment'))">수정</button>
+                            <button type="button" class="btn btn-cancel btn-comment-delete"  id="delete-btn" th:comment="${comment.id}" th:onclick="deleteComment(this.getAttribute('comment'))">삭제</button>
+                        </div>
+
+                        <div type="text" class="position-relative fw-bold fs-6">
+                            좋아요
+                            <span th:text="${comment.heartNum}" class="position-absolute top-0 start-7 translate-middle badge rounded-pill text-kosoo bg-light">
+                                <span class="visually-hidden">댓글 좋아요 개수</span>
+                            </span>
+                            <i class="fa-solid fa-heart fa-beat fa ms-5" style="color: #A593E0;" th:comment="${comment.id}" th:onclick="commentLike(this.getAttribute('comment'))"></i>
+                            <i class="fa-solid fa-heart-crack fa ms-2" style="color: #E0E3DA;" th:comment="${comment.id}" th:onclick="commentDislike(this.getAttribute('comment'))"></i>
+                        </div>
+
+                        <hr>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="form-commentInfo" class="mb-5">
+                <div class="mb-3">
+                    <label for="comment-input"></label>
+                    <input type="text" class="form-control p-2" id="comment-input" placeholder="댓글을 입력해 주세요.">
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-submit btn-comment" id="submit" onclick="create()">등록</button>
+                </div>
+            </div>
+
         </div>
-    </div>
+        </div>
 </div>
 </body>
 <script th:inline="javascript">

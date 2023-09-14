@@ -3,7 +3,7 @@ package com.sparta.kosoo.feed.controller;
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.dto.ApiResult;
 import com.sparta.common.error.ErrorCode;
-import com.sparta.common.error.exceptionn.CommonException;
+import com.sparta.common.error.exception.CommonException;
 import com.sparta.kosoo.feed.dto.PostRequestDto;
 import com.sparta.kosoo.feed.dto.PostResponseDto;
 import com.sparta.kosoo.feed.service.PostLikeService;

@@ -1,6 +1,6 @@
 package com.sparta.common.error;
 
-import com.sparta.common.error.exceptionn.CommonException;
+import com.sparta.common.error.exception.CommonException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

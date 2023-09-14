@@ -5,27 +5,26 @@
 <body>
 <div class="container-fluid">
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
-    <div class="container">
-        <div class="container sub-title fs-4 fw-bold">게시글 작성</div>
-        <div class="container-xl">
-            <form>
-                <div id="input-title" class="input-group mb-3">
-                    <label for="title" class="visually-hidden">제목</label>
-                    <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
-                </div>
-                <div id="input-content" class="input-group mb-3">
-                    <label for="content" class="visually-hidden">내용</label>
-                    <textarea class="form-control" id="content" rows="5" placeholder="내용을 입력하세요"></textarea>
-                </div>
-                <div id="input-image" class="input-group mb-4">
-                    <label for="PostImage" class="form-label visually-hidden">이미지</label>
-                    <input type="file" id="PostImage" class="form-control" multiple>
-                </div>
-            </form>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button onclick="window.location.href='http://localhost:8080'" type="button" class="btn btn-cancel">취소</button>
-                <button onclick="createPost()" type="button" class="btn btn-submit" id="btn-create-post">등록</button>
+    <div class="text-center sub-title fs-4 fw-bold">게시글 작성 페이지</div>
+
+    <div class="container-45">
+        <form>
+            <div id="input-title" class="input-group mb-3">
+                <label for="title" class="visually-hidden">제목</label>
+                <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
             </div>
+            <div id="input-content" class="input-group mb-3">
+                <label for="content" class="visually-hidden">내용</label>
+                <textarea class="form-control" id="content" rows="5" placeholder="내용을 입력하세요"></textarea>
+            </div>
+            <div id="input-image" class="input-group mb-4">
+                <label for="PostImage" class="form-label visually-hidden">이미지</label>
+                <input type="file" id="PostImage" class="form-control" multiple>
+            </div>
+        </form>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button onclick="window.location.href='http://localhost:8080'" type="button" class="btn btn-cancel">취소</button>
+            <button onclick="createPost()" type="button" class="btn btn-submit" id="btn-create-post">등록</button>
         </div>
     </div>
 </div>

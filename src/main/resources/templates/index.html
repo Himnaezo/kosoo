@@ -1,20 +1,21 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="~{fragment/head :: Head ('KoSoo Inside')}"><title></title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-</head>
-<body><div class="container-fluid">
+<head th:replace="~{fragment/head :: Head ('KoSoo Inside')}"><title></title></head>
+	<!-- 바꿀 title 명을 따옴표안에 넣는다 -->
+<body>
+<div class="container-fluid">
 	<div th:replace="~{fragment/nav :: Nav}">insert</div>
+	<div class="text-center sub-title fs-4 fw-bold">뉴스피드 메인 페이지</div>
+
 	<div class="container">
-		<div class="container sub-title fs-4 fw-bold">뉴스피드</div>
-	<div id="feed" class="container">
-		<div id="cards" class="row">
-			<!-- 포스트 리스트 생성 구간 -->
+		<div id="feed" class="container">
+			<div id="cards" class="row">
+				<!-- 포스트 리스트 생성 구간 -->
+			</div>
 		</div>
 	</div>
 </div>
-</div>>
+
 </body>
 <script type="text/javascript" src="/js/basic.js" ></script>
 </html>

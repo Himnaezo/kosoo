@@ -44,25 +44,26 @@ a:hover {
 }
 
 .sub-title {
-    margin-left: 30px;
-    margin-top: 50px;
-    margin-bottom: 100px;
+    margin-top: 10rem;
+    margin-bottom: 15rem;
 }
 
-.container-xl {
-    width: 45%;
+.container {
+    margin-bottom: 20rem;
 }
-.container-xxl {
-    width: 65%;
+
+.container-30 {
+    max-width: 30rem;
+    padding: 0 3rem;
 }
 
 .form-control {
-    border-radius: 5px !important;
+    border-radius: 0.5rem !important;
     border: none;
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     position: relative;
-    font-size: 16px;
+    /*font-size: 16px;*/
 }
 
 .form-control:hover {
