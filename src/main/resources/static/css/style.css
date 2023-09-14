@@ -16,6 +16,15 @@ a:hover {
     color: #566270 !important;
 }
 
+ul, li>a {
+    text-decoration: none !important;
+    color: #566270;
+}
+ul, li>a:hover {
+    color: #A593E0 !important;
+    font-weight: bold;
+}
+
 /* header 시작 */
 .header{
     width: 85%;
@@ -31,6 +40,10 @@ a:hover {
     font-weight: 700;
 }
 .logo:hover {
+    color: #A593E0;
+}
+
+.text-logo {
     color: #A593E0;
 }
 
