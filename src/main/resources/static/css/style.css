@@ -46,7 +46,7 @@ a:hover {
 .sub-title {
     margin-left: 30px;
     margin-top: 50px;
-    margin-bottom: 150px;
+    margin-bottom: 100px;
 }
 
 .container-xl {
@@ -83,11 +83,14 @@ textarea::placeholder {
     color: #fff;
     font-size: 12px;
     font-weight: bold;
+
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    position: relative;
 }
 .btn-edit:hover {
-    border: solid 3px #E0E3DA;
-    color: #566270 !important;
-    transition: all 0.7ms
+    background-color: #f7faeb;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 .btn-submit {
@@ -95,11 +98,14 @@ textarea::placeholder {
     color: #fff;
     font-size: 12px;
     font-weight: bold;
+
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    position: relative;
 }
 .btn-submit:hover {
-    border: solid 3px #A593E0;
-    color: #566270 !important;
-    transition: all 0.7ms
+    background-color: #b9ade0;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 .btn-cancel {
@@ -107,10 +113,14 @@ textarea::placeholder {
     color: #fff;
     font-size: 12px;
     font-weight: bold;
+
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    position: relative;
 }
 .btn-cancel:hover {
-    border: solid 3px #566270;
-    transition: all 0.7ms
+    background-color: #8699af;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 /* 폰트어썸 */
@@ -164,9 +174,13 @@ svg.svg-inline--fa {
 }
 
 .card-post {
-    width: 23rem;
-    height: 23rem;
+    width: 18rem;
+    height: 18rem;
 }
 .start-21 {
     left: 21%!important;
+}
+.col {
+    padding: 0 !important;
+    margin: 0 0 2rem 0 !important;
 }
