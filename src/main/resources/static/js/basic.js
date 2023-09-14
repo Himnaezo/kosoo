@@ -65,36 +65,20 @@ function loadFeed() {
 
 function addHTML(post) {
 
-    return `<div class="card customCard">
-              <div class="post">
-                <div class="feedContent">
-                  <a class="feedHref" href="http://localhost:8080/api/posts/${post.id}">
-                    <h4>${post.title}</h4>
-                    <div class="description">
-                        <p>${post.content}</p>
+    return `<div class="col">
+                <a href="http://localhost:8080/api/posts/${post.id}" class="card card-post text-bg-dark position-relative">
+                  <img src="${post.imageUrl}" class="card-img overflow-hidden" alt="게시글썸네일">
+
+                  <div class="card-img-overlay">
+                    <div class="card-title fs-6 fw-bold p-3">${post.title}</div>
+
+                    <div class="card-text text-end fs-6 position-absolute bottom-0 end-0 p-3">
+                      <span class="fw-bold">${post.username}</span>
+                      <span class="ms-2"><i class="fa-solid fa-heart fa-beat fa ms-2"></i> ${post.heartNum}</span>
+                      <div class=""><small>${post.modifiedAt}</small></div>
                     </div>
-                      <a class="feedHref" href="http://localhost:8080/api/posts/${post.id}">
-                        <div class="image">
-                         <img src="${post.imageUrl}" alt="post-img">
-                         </div>
-                        </a>
-                    <div>
-                         <p><i class="fas fa-heart"></i> ${post.heartNum}</p>
-                    </div>
-                  </a>
-                  <div class="subInfo">
-                      <span> ${post.modifiedAt} </span>
                   </div>
-                </div>
-                <div class="feedUser">
-                  <a class="userInfo" href="">
-                    <span>
-                      "by "
-                      <b>${post.username}</b>
-                    </span>
-                  </a>
-                </div>
-                </div>
-              </div>`
+                </a>
+            </div>`
     }
 }
