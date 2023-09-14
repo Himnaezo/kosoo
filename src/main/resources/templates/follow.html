@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 팔로우 멤버')}"><title></title></head>
-<style>
+<!--<style>
     html, body {
         height: 100%;
         background-color: #FFFFF3;
@@ -82,16 +82,23 @@
         text-align: right;
     }
 
-</style>
+</style>-->
 <body>
 <div class="container-fluid">
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
-    <div class="container">
+    <div class="container mb-5">
         <div class="container sub-title fs-4 fw-bold">팔로우 찾기</div>
-    <ul id="member-list"></ul>
-        <div class="container sub-title fs-4 fw-bold">팔로잉 게시글</div>
-    <ul id="post-list"></ul>
-</div>
+
+        <div id="member-list" class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- 팔로우할 멤버 리스트 생성 구간 -->
+        </div>
+
+        <div class="container sub-title fs-4 fw-bold mt-5">팔로잉 게시글</div>
+
+        <div id="post-list" class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- 팔로우한 멤버의 포스트 리스트 생성 구간 -->
+        </div>
+    </div>
 </div>
 </body>
 <script>
@@ -115,9 +122,6 @@
         return auth;
     }
     function loadFeed() {
-        // 스크롤 이벤트 리스너 등록
-        // 스크롤이 맨 아래로 내려갔을 때 새로운 피드 추가
-        // 새로운 피드 가져오기
         $.ajax({
             url: 'http://localhost:8080/api/following/posts',
             method: 'GET',
@@ -135,42 +139,23 @@
         });
     }
     function addHTML(post) {
-        return `<div class="card customCard">
-<div class="post">
-                <div class="feedContent">
-                    <a class="feedHref" href="http://localhost:8080/api/posts/likes/${post.id}">
-                        <h4>${post.title}</h4>
-                        <div class="description">
-                            <p>${post.content}</p>
+        return `<div class="col">
+                    <a href="http://localhost:8080/api/posts/likes/${post.id}" class="card card-post text-bg-dark position-relative">
+                      <img src="${post.imageUrl}" class="card-img overflow-hidden" alt="게시글썸네일">
+
+                      <div class="card-img-overlay">
+                        <div class="card-title fs-6 fw-bold p-3">${post.title}</div>
+
+                        <div class="card-text text-end fs-6 position-absolute bottom-0 end-0 p-3">
+                          <span class="fw-bold">${post.username}</span>
+                          <span class="ms-2"><i class="fa-solid fa-heart fa-beat fa ms-2"></i> ${post.heartNum}</span>
+                          <div class=""><small>${post.modifiedAt}</small></div>
                         </div>
-                        <a class="feedHref" href="http://localhost:8080/api/posts/likes/${post.id}">
-                    <div class="image">
-                        <img src="${post.imageUrl}">
-                    </div>
-                </a>
-                        <div> <p><i class="fas fa-heart"></i> ${post.heartNum}</p></div>
+                      </div>
                     </a>
-                    <div class="subInfo">
-                        <span> ${post.modifiedAt} </span>
-                        <span class="seperator"></span>
-                    </div>
-                </div>
-                <div class="feedUser">
-                    <a class="userInfo" href="">
-                        <span>
-                            "by "
-                            <b>${post.username}</b>
-                        </span>
-                    </a>
-                </div>
-                </div>
-            </div>
-            `
+                </div>`
     }
     function loadMembers() {
-        // 스크롤 이벤트 리스너 등록
-        // 스크롤이 맨 아래로 내려갔을 때 새로운 피드 추가
-        // 새로운 피드 가져오기
         $.ajax({
             url: 'http://localhost:8080/api/accounts/members',
             method: 'GET',
@@ -188,21 +173,17 @@
         });
     }
     function addProfile(profile) {
-        return `<div class="post">
-                    <div><span>프로필</span></div>
-                    <div class="image">
-                        <img src="${profile.imageUrl}">
+        return `<div class="col">
+                  <div id="post" class="card bg-kosoo card-profile position-relative">
+                    <img src="${profile.imageUrl}" class="img-thumbnail card-img-top" alt="프로필썸네일">
+                    <div class="card-title fs-4 fw-bold">${profile.username}</div>
+                    <div class="card-text fs-6 mb-2">${profile.introduce}</div>
+                      <div class="card-body position-absolute bottom-0 start-21">
+                        <button type="button" class="btn btn-submit" onclick="follow(${profile.id})">팔로우</button>
+                        <button type="button" class="btn btn-edit" onclick="unfollow(${profile.id})">언팔로우</button>
+                      </div>
                     </div>
-                     <div class="feedContent">
-                        <h4>${profile.username}</h4>
-                        <div class="description">
-                            <p>${profile.introduce}</p>
-                        </div>
-                    </div>
-                    <div>
-                    <button type="button" class="btn btn-submit" onclick="follow(${profile.id})">팔로우</button>
-                    <button type="button" class="btn btn-edit" onclick="unfollow(${profile.id})">언팔로우</button>
-                    </div>
+                  </div>
                 </div>`
     }
     function follow(id){
