@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <body>
-<div th:fragment="Nav">
-  <div class="header">
-    <div class="fs-2 fw-bold logo"><a th:href="@{/}">KoSoo</a></div>
-    <div class="nav fw-bold">
-      <ul>
-        <li><a th:href="@{/posts}" sec:authorize="isAuthenticated()">게시글 작성</a></li>
-        <li><a th:href="@{/follows}" sec:authorize="isAuthenticated()">팔로우할 고수 찾기</a></li>
-        <li><a th:href="@{/profile}" sec:authorize="isAuthenticated()">마이페이지</a></li>
-        <li><a th:href="@{/login}" sec:authorize="!isAuthenticated()">로그인</a></li>
-        <li><a th:href="@{/signup}" sec:authorize="!isAuthenticated()">회원가입</a></li>
-        <li><a th:href="@{/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
-      </ul>
+<nav th:fragment="Nav" class="navbar bg-body-tertiary">
+  <div class="container-fluid px-5">
+    <a th:href="@{/}" class="fs-2 fw-bold logo"><span class="text-logo">K</span>o<span class="text-logo">S</span>oo</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title fw-bold" id="offcanvasNavbarLabel"><span class="text-logo">K</span>o<span class="text-logo">S</span>oo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item fw-bold"><a class="nav-link active" aria-current="page" th:href="@{/}">HOME</a></li>
+          <li class="nav-item"><a class="nav-link active" th:href="@{/posts}" sec:authorize="isAuthenticated()">게시글 작성</a></li>
+          <li class="nav-item"><a class="nav-link active" th:href="@{/follows}" sec:authorize="isAuthenticated()">팔로우할 고수 찾기</a></li>
+          <li class="nav-item"><a class="nav-link active" th:href="@{/profile}" sec:authorize="isAuthenticated()">마이페이지</a></li>
+          <li class="nav-item"><a class="nav-link active" th:href="@{/login}" sec:authorize="!isAuthenticated()">로그인</a></li>
+          <li class="nav-item"><a class="nav-link active" th:href="@{/signup}" sec:authorize="!isAuthenticated()">회원가입</a></li>
+          <li class="nav-item"><a class="nav-link active" th:href="@{/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
+</nav>
 </body>
 </html>
