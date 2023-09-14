@@ -1,12 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;700;900&display=swap');
-/*@font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-* {font-family: 'GmarketSansMedium', sans-serif;}*/
-ul, li {text-decoration: none;}
 *, html, body {
     font-family: 'Noto Sans KR', sans-serif;
     margin: 0;
@@ -124,8 +116,6 @@ textarea::placeholder {
     margin-top: 30px; /* 원하는 간격 크기로 조정하세요. */
 }
 
-
-
 .cards {
     display: grid; /* 그리드 레이아웃 사용 */
     grid-template-columns: repeat(4, 1fr); /* 4개의 열 생성 */
@@ -200,4 +190,30 @@ textarea::placeholder {
     display: flex;
     -webkit-box-align: center;
     align-items: center;
+}
+
+/* 폰트어썸 */
+svg.svg-inline--fa.fa-xl {
+    cursor: pointer !important;
+}
+svg.svg-inline--fa {
+    cursor: pointer !important;
+}
+
+/* 배지 위치 & 색상 */
+.start-12 {
+    left: 7% !important;
+}
+.start-31 {
+    left: 31% !important;
+}
+.start-106 {
+    left: 106% !important;
+}
+.text-bg-kosoo {
+    color: #ffffff;
+    background-color: #A593E0;
+}
+.text-kosoo {
+    color: #566270;
 }

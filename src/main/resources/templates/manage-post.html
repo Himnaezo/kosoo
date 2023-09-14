@@ -7,23 +7,25 @@
     <div th:replace="~{fragment/nav :: Nav}">insert</div>
     <div class="container">
         <div class="container sub-title fs-4 fw-bold">게시글 수정</div>
-        <div class="col-md-4">
+        <div class="container-xl">
             <form>
-                <div class="form-group">
-                    <label for="title">제목</label>
+                <div id="input-title" class="input-group mb-3">
+                    <label for="title" class="visually-hidden">제목</label>
                     <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요">
                 </div>
-                <div class="form-group">
-                    <label for="content">내용</label>
+                <div id="input-content" class="input-group mb-3">
+                    <label for="content" class="visually-hidden">내용</label>
                     <textarea class="form-control" id="content" placeholder="내용을 입력하세요"></textarea>
                 </div>
-                <div>
-                    <label for="postImage">이미지</label>
-                    <input type="file" id="postImage" name="postImage">
+                <div id="input-image" class="input-group mb-4">
+                    <label for="postImage" class="form-label visually-hidden">이미지</label>
+                    <input type="file" id="postImage" class="form-control" multiple>
                 </div>
             </form>
-            <button type="button" class="btn btn-primary"  onclick="back()">취소</button>
-            <button type="button" class="btn btn-primary" id="btn-save" onclick="modifyPost()">수정</button></div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-cancel" onclick="backToPost()">취소</button>
+                <button type="button" class="btn btn-submit" onclick="modifyPost()" id="btn-modify-post" >수정</button></div>
+            </div>
         </div>
     </div>
 </body>
@@ -90,9 +92,9 @@
             alert(res.responseText);
         })
     }
-    function back(){
+    function backToPost(){
         let feedId = [[${post.id}]];
-        window.location.href=host + '/posts/'+ feedId
+        window.location.href=host + '/api/posts/'+ feedId
     }
 </script>
 </html>

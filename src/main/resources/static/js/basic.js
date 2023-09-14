@@ -67,34 +67,32 @@ function addHTML(post) {
 
     return `<div class="card customCard">
               <div class="post">
-              
                 <div class="feedContent">
-                    <a class="feedHref" href="http://localhost:8080/api/posts/${post.id}">
-                        <h4>${post.title}</h4>
-                        <div class="description">
-                            <p>${post.content}</p>
-                        </div>
-                          <a class="feedHref" href="http://localhost:8080/api/posts/${post.id}">
-                            <div class="image">
-                             <img src="${post.imageUrl}" alt="post-img">
-                             </div>
-                            </a>
-                        <div>
-                             <p><i class="fas fa-heart"></i> ${post.heartNum}</p>
-                        </div>
-
-                    </a>
-                    <div class="subInfo">
-                        <span> ${post.modifiedAt} </span>
+                  <a class="feedHref" href="http://localhost:8080/api/posts/${post.id}">
+                    <h4>${post.title}</h4>
+                    <div class="description">
+                        <p>${post.content}</p>
                     </div>
+                      <a class="feedHref" href="http://localhost:8080/api/posts/${post.id}">
+                        <div class="image">
+                         <img src="${post.imageUrl}" alt="post-img">
+                         </div>
+                        </a>
+                    <div>
+                         <p><i class="fas fa-heart"></i> ${post.heartNum}</p>
+                    </div>
+                  </a>
+                  <div class="subInfo">
+                      <span> ${post.modifiedAt} </span>
+                  </div>
                 </div>
                 <div class="feedUser">
-                    <a class="userInfo" href="">
-                        <span>
-                            "by "
-                            <b>${post.username}</b>
-                        </span>
-                    </a>
+                  <a class="userInfo" href="">
+                    <span>
+                      "by "
+                      <b>${post.username}</b>
+                    </span>
+                  </a>
                 </div>
                 </div>
               </div>`
