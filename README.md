@@ -53,7 +53,9 @@
 <!-- <img src="https://img.shields.io/badge/thymeleaf-6DB33F?style=flat&logo=thymeleaf&logoColor=white"> -->
 <a href="https://jwt.io/"><img src="https://img.shields.io/badge/JsonWebTokens-000000?style=flat&logo=JsonWebTokens&logoColor=white" href="https://jwt.io/"></a>
 <br/>
-<a href="https://www.mysql.com/"><img src ="https://img.shields.io/badge/postgres-4479A1?&style=flat&logo=postgres&logoColor=white"></a>
+<a href="https://www.postgresql.org/"><img src ="https://img.shields.io/badge/postgres-%23316192.svg?style=flat&logo=postgresql&logoColor=white"></a>
+<a href="https://www.docker.com/"><img src ="https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white"></a>
+<a href="https://aws.amazon.com/"><img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=flat&logo=amazon-aws&logoColor=white"></a>
 
 <b>Frontend</b>
 
@@ -72,7 +74,7 @@
    - smtp 설정
    - aws S3 설정
 2. `build.gradle`
-   - 코끼리 때리기
+   - 그레이들 설정 동기화
 3. 실행
    - 브라우저에 서버주소:포트번호
 
@@ -217,7 +219,7 @@
     │           └── signup.html
     └── test
         └── java
-            └── com.sparta.wish
+            └── com.sparta.kosoo
                    └── JpaSaveTest.java
 
 ```
@@ -241,7 +243,7 @@
 </table>  
 
 ## Contributing
-**Contributions** 은 오픈 소스 커뮤니티를 배우고, 영감을 주고, 창조할 수 있는 놀라운 장소로 만드는 것입니다.
+**Contributions** 은 오픈 소스 커뮤니티를 배우고, 영감을 주고, 개발할 수 있는 놀라운 장소로 만드는 것입니다.
 
 프로젝트를 개선하기 위한 제안이 있는 경우 저장소를 포크하고 풀 요청을 해주세요! "enhancement" 태그를 사용하여 이슈를 열 수도 있습니다.
 
