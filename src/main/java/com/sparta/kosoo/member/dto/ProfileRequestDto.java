@@ -10,5 +10,4 @@ public class ProfileRequestDto {
     private String password;
     private String imageUrl;
     private String introduce;
-
 }

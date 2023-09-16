@@ -33,12 +33,11 @@ public class Comment extends TimeStamped {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    @Column(name = "comment_like_list")
-    private List<CommentLike> commentLikeList = new ArrayList<>();
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
     @Builder
-    public Comment(String content, Post post, Member member){
+    public Comment(String content, Post post, Member member) {
         this.content = content;
         this.post = post;
         this.member = member;
@@ -47,5 +46,4 @@ public class Comment extends TimeStamped {
     public void update(CommentUpdateRequestDto requestDto) {
         this.content = requestDto.getContent();
     }
-
 }

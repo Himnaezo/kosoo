@@ -27,11 +27,11 @@ public class PostResponseDto {
         this.username = post.getMember().getUsername();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
-        this.commentList = post.getCommentList().stream()
+        this.commentList = post.getComments().stream()
                 .map(CommentResponseDto::new)
                 .sorted(Comparator.comparing(CommentResponseDto::getCreatedAt).reversed())
                 .collect(Collectors.toList());
-        this.heartNum = post.getPostLikeList().size();
+        this.heartNum = post.getComments().size();
         this.imageUrl = post.getImageUrl();
     }
 }

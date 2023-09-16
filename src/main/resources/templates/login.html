@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 로그인 멤버')}"><title></title></head>
 <body>
 <div class="container-fluid">
@@ -8,13 +7,21 @@
     <div class="text-center sub-title fs-4 fw-bold">로그인 페이지</div>
 
     <div class="container container-30">
+        <!-- 로그인 실패 메시지 표시를 위한 요소 -->
+        <div id="login-failed" class="alert alert-danger" style="display: none;">
+            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+            <div>
+                로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.
+            </div>
+        </div>
+
         <div id="input-username" class="input-group mb-3">
             <label for="username"></label>
-            <input type="text" id="username" class="form-control p-2"  placeholder="아이디를 입력하세요.">
+            <input type="text" id="username" class="form-control p-2" placeholder="아이디를 입력하세요.">
         </div>
         <div id="input-password" class="input-group mb-3">
             <label for="password"></label>
-            <input type="password" id="password" class="form-control p-2"  placeholder="비밀번호를 입력하세요.">
+            <input type="password" id="password" class="form-control p-2" placeholder="비밀번호를 입력하세요.">
         </div>
         <div class="d-grid gap-2">
             <button id="login-btn" onclick="login()" class="btn btn-submit p-2">로그인</button>
@@ -30,31 +37,51 @@
         const errorDiv = document.getElementById('login-failed');
         errorDiv.style.display = 'block';
     }
+
     const host = 'http://' + window.location.host;
+
     function login() {
         let username = $('#username').val();
         let password = $('#password').val();
+
+        // 예외 처리: 아이디 또는 비밀번호가 비어있는 경우
+        if (!username || !password) {
+            const errorDiv = document.getElementById('login-failed');
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = '아이디와 비밀번호를 모두 입력하세요.';
+            return;
+        }
+
         console.log(username, password);
         $.ajax({
             type: "POST",
             url: `/api/accounts/login`,
             contentType: "application/json",
-            data: JSON.stringify({username: username, password: password}),
+            data: JSON.stringify({ username: username, password: password }),
         })
             .done(function (res, status, xhr) {
                 const token = xhr.getResponseHeader('Authorization');
-
-                Cookies.set('Authorization', token, {path: '/'})
-
+                Cookies.set('Authorization', token, { path: '/' });
                 $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
                     jqXHR.setRequestHeader('Authorization', token);
                 });
-
-                window.location.href = host;
+                alert('로그인 성공');
+                setTimeout(function() {
+                    window.location.href = host;
+                }, 2000); // 2초 후에 리다이렉트
             })
-            .fail(function (res, jqXHR, textStatus) {
-                alert(res.responseText);
-                window.location.href = host + '/login'
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 401) {
+                    // 비밀번호가 틀렸을 경우
+                    const errorDiv = document.getElementById('login-failed');
+                    errorDiv.style.display = 'block';
+                    errorDiv.textContent = '비밀번호가 틀렸습니다. 다시 시도하세요.';
+                } else {
+                    // 다른 오류 처리
+                    alert('로그인 중 오류가 발생했습니다.');
+                }
+                // 로그인 실패 시, 입력 필드 초기화
+                $('#password').val('');
             });
     }
 </script>

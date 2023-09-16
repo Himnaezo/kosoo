@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<!-- 바꿀 title 명을 따옴표안에 넣는다 -->
 <head th:replace="~{fragment/head :: Head ('KoSoo | 회원가입 멤버')}"><title></title></head>
 <body>
 <div class="container-fluid">
@@ -8,25 +7,42 @@
     <div class="text-center sub-title fs-4 fw-bold">회원가입 페이지</div>
 
     <div class="container container-30">
+        <!-- 각 항목의 입력 확인을 위한 요소 추가 -->
         <div id="input-username" class="input-group mb-3">
-            <label for="username"></label>
-            <input type="text" id="username" class="form-control p-2" placeholder="아이디를 입력하세요.">
+            <label for="username" class="visually-hidden">아이디 입력란</label>
+            <input type="text" id="username" class="form-control p-2 is-invalid" placeholder="아이디를 입력하세요." onblur="validateInput(this)">
         </div>
         <div id="input-password" class="input-group mb-3">
-            <label for="password"></label>
-            <input type="password" id="password" class="form-control p-2" placeholder="비밀번호를 입력하세요.">
+            <label for="password" class="visually-hidden">비밀번호 입력란</label>
+            <input type="password" id="password" class="form-control p-2 is-invalid" placeholder="비밀번호를 입력하세요." onblur="validateInput(this)">
         </div>
         <div id="input-email" class="input-group mb-3">
-            <label for="email"></label>
-            <input type="email" id="email" class="form-control p-2" placeholder="이메일을 입력하세요." aria-label="sending auth-code" aria-describedby="button-addon2">
+            <label for="email" class="visually-hidden">이메일 입력란</label>
+            <input type="email" id="email" class="form-control p-2 is-invalid" placeholder="이메일을 입력하세요." aria-label="sending auth-code" aria-describedby="button-addon2" onblur="validateInput(this)">
+            <label for="button-addon2" class="visually-hidden">인증 버튼</label>
             <button onclick="sendEmail()" type="button" id="button-addon2" class="btn btn-edit">인증</button>
         </div>
         <div id="input-code" class="input-group mb-3">
-            <label for="code"></label>
-            <input type="text" id="code" class="form-control p-2" placeholder="이메일 인증코드를 입력하세요.">
+            <label for="code" class="visually-hidden">인증코드 입력란</label>
+            <input type="text" id="code" class="form-control p-2 is-invalid" placeholder="이메일 인증코드를 입력하세요." onblur="validateInput(this)">
         </div>
-        <div class="d-grid">
+        <div class="d-grid mb-5">
+            <label for="btn" class="visually-hidden">회원가입 버튼</label>
             <button id="btn" onclick="signup()" type="button" class="btn btn-submit p-2">회원가입</button>
+        </div>
+        <!-- 입력 필드 미입력 시 경고 표시를 위한 요소 추가 -->
+        <div id="input-error" class="alert alert-danger" style="display: none;">
+            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+            <div>
+                모든 칸을 입력 해주세요!
+            </div>
+        </div>
+        <!-- 회원가입 성공 메시지를 위한 요소 추가 -->
+        <div id="signup-success" class="alert alert-success" style="display: none;">
+            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <div>
+                회원가입이 성공적으로 완료되었습니다!
+            </div>
         </div>
     </div>
 </div>
@@ -55,6 +71,15 @@
         let password = $('#password').val();
         let email = $('#email').val();
         let inputCode = $('#code').val();
+
+        // 예외 처리: 모든 필드가 입력되지 않았을 경우
+        if (!username || !password || !email || !inputCode) {
+            const errorDiv = document.getElementById('input-error');
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = '모든 필드를 입력하세요.';
+            return;
+        }
+
         if (inputCode === code) {
             $.ajax({
                 type: 'POST',
@@ -62,12 +87,26 @@
                 contentType: 'application/json',
                 data: JSON.stringify({ username: username, password: password, email: email }),
             }).done(function () {
-                window.location.href = host;
+                const successDiv = document.getElementById('signup-success');
+                successDiv.style.display = 'block';
+                setTimeout(function() {
+                    window.location.href = host;
+                }, 2000); // 5초 후에 리다이렉트
             }).fail(function (res) {
                 alert(res.responseText);
             });
         } else {
             alert('😨 인증코드 불일치');
+        }
+    }
+
+    // 입력 필드의 값을 검사하고 비어 있으면 경고 스타일을 적용
+    function validateInput(input) {
+        const value = input.value.trim();
+        if (!value) {
+            input.classList.add('is-invalid');
+        } else {
+            input.classList.remove('is-invalid');
         }
     }
 </script>

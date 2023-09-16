@@ -27,6 +27,6 @@ public class CommentResponseDto{
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
         this.username = comment.getMember().getUsername();
-        this.heartNum = comment.getCommentLikeList().size();
+        this.heartNum = comment.getCommentLikes().size();
     }
 }

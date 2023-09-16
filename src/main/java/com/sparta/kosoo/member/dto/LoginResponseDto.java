@@ -8,12 +8,4 @@ import lombok.Getter;
 public class LoginResponseDto {
     private String msg;
     private int statusCode;
-
-    @Override
-    public String toString() {
-        return "{\n" +
-                "  msg='" + msg + "\'" +
-                ",\n  statusCode=" + statusCode +
-                '}';
-    }
 }

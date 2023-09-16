@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;600;700;900&display=swap');
 body {
     font-family: 'Noto Sans KR', sans-serif;
     margin: 0;
@@ -7,7 +7,7 @@ body {
     background-color: #FFFFF3;
     color: #566270;
 }
-
+/* 로고 & 네비게이션 */
 a {
     text-decoration: none !important;
     color: #566270;
@@ -15,61 +15,47 @@ a {
 a:hover {
     color: #566270 !important;
 }
-
 ul, li>a {
     text-decoration: none !important;
     color: #566270;
+    cursor: pointer !important;
 }
 ul, li>a:hover {
     color: #A593E0 !important;
-    font-weight: bold;
+    font-weight: 500;
 }
-
-/* header 시작 */
-.header{
-    width: 85%;
-    height: 100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between; /*양쪽 정렬*/
-    align-items: center;
-}
-
-/* 로고 & 네비게이션 */
 .logo {
     font-weight: 700;
 }
 .logo:hover {
     color: #A593E0;
 }
-
 .text-logo {
     color: #A593E0;
 }
-
 .nav ul li{
     display: inline-block;
     margin: 0 10px;
 }
-
 .nav ul li a:hover {
     color: #A593E0;
 }
-
-.sub-title {
-    margin-top: 10rem;
-    margin-bottom: 15rem;
+.offcanvas, .offcanvas-lg, .offcanvas-md, .offcanvas-sm, .offcanvas-xl, .offcanvas-xxl {
+    --bs-offcanvas-width: 245px !important;
+    --bs-offcanvas-bg: #ffffffe6 !important;
 }
-
+/* 페이지명 */
+.sub-title {
+    margin-top: 8rem;
+    margin-bottom: 10rem;
+}
 .container {
     margin-bottom: 20rem;
 }
-
 .container-30 {
     max-width: 30rem;
     padding: 0 3rem;
 }
-
 .form-control {
     border-radius: 0.5rem !important;
     border: none;
@@ -77,15 +63,12 @@ ul, li>a:hover {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     position: relative;
 }
-
 .form-control:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
-
 #email{
     border-radius: 0.5rem 0 0 0.5rem!important;
 }
-
 input::placeholder {
     color: #b9b9b9;
     font-size: 10px;
@@ -94,7 +77,6 @@ textarea::placeholder {
     color: #b9b9b9;
     font-size: 10px;
 }
-
 .btn-edit {
     background-color: #E0E3DA;
     color: #fff;
@@ -109,7 +91,6 @@ textarea::placeholder {
     background-color: #f7faeb;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
-
 .btn-submit {
     background-color: #A593E0;
     color: #fff;
@@ -124,7 +105,6 @@ textarea::placeholder {
     background-color: #b9ade0;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
-
 .btn-cancel {
     background-color: #566270;
     color: #fff;
@@ -171,7 +151,6 @@ svg.svg-inline--fa {
     background-color: #f7f6fa;
     color: #566270;
 }
-
 .card {
     border-radius: 15px !important;
     border: none;
@@ -179,17 +158,14 @@ svg.svg-inline--fa {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     position: relative;
 }
-
 .card:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
-
 .card-profile {
     padding: 2rem;
     width: 17rem;
     height: 25rem;
 }
-
 .card-post {
     width: 18rem;
     height: 18rem;
@@ -198,6 +174,17 @@ svg.svg-inline--fa {
     left: 21%!important;
 }
 .col {
-    padding: 0 !important;
+    /*padding: 0 !important;*/
     margin: 0 0 2rem 0 !important;
+}
+
+/* .wrap-kosoo 스크롤 수정 */
+.wrap-kosoo {
+    white-space: pre-wrap; /* 줄 바꿈 유지 및 자동 줄 바꿈 활성화 */
+    word-break: break-word; /* 긴 단어(or 문장)를 줄 바꿈 */
+}
+.d-kosoo {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-content: flex-start;
 }

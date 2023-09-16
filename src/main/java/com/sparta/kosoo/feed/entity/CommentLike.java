@@ -17,11 +17,11 @@ public class CommentLike {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
-    Comment comment;
+    private Comment comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    Member member;
+    private Member member;
 
     public CommentLike(Comment comment, Member member) {
         this.comment = comment;

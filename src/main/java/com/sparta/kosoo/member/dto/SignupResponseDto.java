@@ -8,7 +8,7 @@ public class SignupResponseDto {
     private String username;
     private String password;
 
-    public SignupResponseDto(Member member){
+    public SignupResponseDto(Member member) {
         this.username = member.getUsername();
         this.password = member.getPassword();
     }

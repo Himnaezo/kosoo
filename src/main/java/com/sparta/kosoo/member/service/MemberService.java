@@ -36,7 +36,7 @@ public class MemberService {
     private final JavaMailSender javaMailSender;
     private final ImageUploader imageUploader;
 
-    private static final int AUTH_CODE_LENGTH = 6; // 이메일인증 코드 상수로 정의
+    private static final int AUTH_CODE_LENGTH = 6; // 이메일 인증 코드 상수로 정의
 
     @Transactional
     public void signup(SignupRequestDto requestDto) {

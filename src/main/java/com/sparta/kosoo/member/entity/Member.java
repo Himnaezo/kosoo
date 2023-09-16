@@ -13,6 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "members")
 public class Member {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -46,6 +47,7 @@ public class Member {
         this.role = role;
     }
 
+    @Builder
     public Member(String username, String password, String email, MemberRole role) {
         this.username = username;
         this.password = password;
@@ -58,11 +60,5 @@ public class Member {
         this.password = requestDto.getPassword();
         this.imageUrl = requestDto.getImageUrl();
         this.introduce = requestDto.getIntroduce();
-    }
-
-    public Member update(String name, String profileImageUrl) {
-        this.username = name;
-        this.imageUrl = profileImageUrl;
-        return this;
     }
 }

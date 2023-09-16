@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class PostController {
@@ -46,20 +46,6 @@ public class PostController {
     @ResponseBody
     public List<PostResponseDto> readPosts() {
         return postService.readPosts();
-    }
-
-    @GetMapping("/posts/{postId}")
-    public String readPost(@PathVariable Long postId, Model model){
-        PostResponseDto responseDto = postService.readPost(postId);
-        model.addAttribute("post", responseDto);
-        return "detail-post";
-    }
-
-    @GetMapping("/posts/manage/{postId}")
-    public String updatePost(@PathVariable Long postId, Model model){
-        PostResponseDto responseDto = postService.readPost(postId);
-        model.addAttribute("post", responseDto);
-        return "manage-post";
     }
 
     @PutMapping("/posts/{postId}")

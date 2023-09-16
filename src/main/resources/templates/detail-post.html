@@ -10,23 +10,23 @@
     <div class="container">
         <div class="post">
             <div class="fs-4 fw-bold mb-3" th:text="${post.title}"></div>
-            <hr class="mb-5">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-5">
-                <div type="text" class="position-relative fs-6 fw-bold">
+            <hr class="mb-3">
+            <div class="gap-2 justify-content-start mb-5 d-kosoo">
+                <div type="text" class="position-relative fs-6 fw-bold mb-3">
                     좋아요
-                    <span th:text="${post.heartNum}" class="position-absolute top-0 start-31 translate-middle badge rounded-pill text-bg-kosoo">
+                    <span th:text="${post.heartNum}" class="top-0 start-31 translate-middle badge rounded-pill text-bg-kosoo">
                         <span class="visually-hidden">게시글 좋아요 개수</span>
                     </span>
                     <i class="ms-5 fa-solid fa-heart fa-beat fa-xl" style="color: #A593E0;" onclick="postLike()"></i>
                     <i class="ms-2 fa-solid fa-heart-crack fa-xl" style="color: #E0E3DA;" onclick="postDislike()"></i>
                 </div>
-                <span class="ms-5 me-2 fw-bold fs-6" th:text="${post.username}"></span>
-                <span class="fs-6" th:text="${post.modifiedAt}"> </span>
+                <span class="me-2 fw-bold fs-6" th:text="${post.username}"></span>
+                <span class="fs-6 mb-5" th:text="${post.modifiedAt}"> </span>
             </div>
 
             <div class="post-contents mb-5">
-                <img class="img-fluid mb-5" th:src="${post.imageUrl}" alt="프로필 이미지">
-                <div class="fs-4" th:text="${post.content}"></div>
+                <img class="img-fluid mb-5" th:src="${post.imageUrl}" alt="게시글 이미지">
+                <div class="fs-4 wrap-kosoo" th:text="${post.content}"></div>
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
@@ -48,16 +48,17 @@
 
                 <hr>
 
-                <div th:each="comment : ${post.commentList}">
-                    <span th:text="${comment.username}">&nbsp;&nbsp;</span>
-                    <span th:text="${comment.modifiedAt}"></span>
-
-                    <div>
-                        <span th:text="${comment.content}"></span>
+                <div th:each="comment : ${post.commentList}" class="justify-content-start mb-5">
+                    <div class="gap-2 justify-content-start mb-2 d-kosoo">
+                        <span class="me-2 fw-bold fs-6" th:text="${comment.username}">&nbsp;&nbsp;</span>
+                        <span class="fw-6" th:text="${comment.modifiedAt}"></span>
                     </div>
-                    <label><textarea class="bg-transparent border-0" th:id="'comment-modify-input-' + ${comment.id}" placeholder="수정하실 댓글내용을 입력해 주세요."></textarea></label>
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="wrap-kosoo" th:text="${comment.content}"></div>
+
+                    <label><textarea class="bg-transparent border-0 wrap-kosoo" th:id="'comment-modify-input-' + ${comment.id}" placeholder="수정하실 댓글내용을 입력해 주세요."></textarea></label>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
                         <button type="button" class="btn btn-edit btn-comment-modify" id="modify-btn" th:comment="${comment.id}" th:onclick="modifyComment(this.getAttribute('comment'))">수정</button>
                         <button type="button" class="btn btn-cancel btn-comment-delete"  id="delete-btn" th:comment="${comment.id}" th:onclick="deleteComment(this.getAttribute('comment'))">삭제</button>
                     </div>
@@ -123,7 +124,7 @@
     }
     function modifyPost() {
         let feedId = [[${post.id}]]
-        window.location.href = host + "/api/posts/manage/" + feedId
+        window.location.href = host + "/posts/manage/" + feedId
     }
     function deletePost() {
         let feedId = [[${post.id}]];

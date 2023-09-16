@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sparta.kosoo.member.entity.MemberRole;
+
 @Entity
 @NoArgsConstructor
 @Getter
@@ -32,19 +34,17 @@ public class Post extends TimeStamped {
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")    // '@ManyToOne' association and may not use '@Column' to specify column mappings (use '@JoinColumn' instead)
+    @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @Column(name = "comment_list")
-    private List<Comment> commentList = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    @Column(name = "post_like_list")
-    private List<PostLike> postLikeList = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLike> postLikes = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, Member member, String imageUrl){
+    public Post(String title, String content, Member member, String imageUrl) {
         this.title = title;
         this.content = content;
         this.member = member;

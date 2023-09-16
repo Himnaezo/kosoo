@@ -4,9 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class PasswordResponseDto {
-    boolean isCorrect;
+    private boolean isCorrect;
 
     public PasswordResponseDto(boolean isCorrect) {
         this.isCorrect = isCorrect;
     }
 }
+
