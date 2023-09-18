@@ -54,9 +54,9 @@
                         <span class="fw-6" th:text="${comment.modifiedAt}"></span>
                     </div>
 
-                    <div class="wrap-kosoo" th:text="${comment.content}"></div>
+                    <div class="wrap-kosoo comment-see-area" th:text="${comment.content}"></div>
 
-                    <label><textarea class="bg-transparent border-0 wrap-kosoo" th:id="'comment-modify-input-' + ${comment.id}" placeholder="수정하실 댓글내용을 입력해 주세요."></textarea></label>
+                    <label><textarea class="bg-transparent border-0 wrap-kosoo comment-modify-area" th:id="'comment-modify-input-' + ${comment.id}" placeholder="수정하실 댓글내용을 입력해 주세요."></textarea></label>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
                         <button type="button" class="btn btn-edit btn-comment-modify" id="modify-btn" th:comment="${comment.id}" th:onclick="modifyComment(this.getAttribute('comment'))">수정</button>
@@ -79,7 +79,7 @@
             <div id="form-commentInfo" class="mb-5">
                 <div class="mb-3">
                     <label for="comment-input"></label>
-                    <input type="text" class="form-control p-2" id="comment-input" placeholder="댓글을 입력해 주세요.">
+                    <input type="text" class="form-control p-3" id="comment-input" placeholder="댓글을 입력해 주세요.">
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button type="button" class="btn btn-submit btn-comment" id="submit" onclick="create()">등록</button>
@@ -139,24 +139,40 @@
             alert(res.responseText);
         })
     }
+    // 댓글 수정 창 숨기기
+    $(".comment-modify-area").hide();
+
+    // 댓글 수정 버튼 클릭 시 댓글 수정 창 표시 및 댓글 내용 숨기기
+    $(".btn-comment-modify").click(function () {
+        // 수정할 댓글의 ID를 가져오기
+        var commentId = $(this).attr("th:comment");
+
+        // 해당 댓글의 수정 창을 보이도록 설정
+        $("#comment-modify-input-" + commentId).show();
+
+        // 해당 댓글의 내용을 숨김
+        $(".comment-see-area[data-comment-id='" + commentId + "']").hide();
+    });
+
+    // 수정된 댓글 내용을 서버로 전송하는 함수
     function modifyComment(id) {
         let feedId = [[${post.id}]];
         let inputId = 'comment-modify-input-' + id;
         let content = $('#' + inputId).val();
-        console.log(content)
 
         $.ajax({
             type: "PUT",
             url: `/api/comments/` + id,
             contentType: "application/json",
-            data: JSON.stringify({feedId: feedId, content: content}),
+            data: JSON.stringify({ feedId: feedId, content: content }),
         }).done(function () {
             alert("📝 댓글 수정 완료");
-            window.location.href = host + "/api/posts/" + feedId
+            window.location.href = host + "/api/posts/" + feedId;
         }).fail(function (res) {
             alert(res.responseText);
-        })
+        });
     }
+
     function deleteComment(id) {
         let feedId = [[${post.id}]];
         $.ajax({
@@ -178,7 +194,7 @@
             contentType: "application/json",
         }).done(function () {
             alert("💖 게시글 좋아요");
-            window.location.href = host + "/api/posts/" + feedId
+            window.location.href = host + "/posts/" + feedId
         }).fail(function (res) {
             alert(res.responseText);
         })
@@ -191,7 +207,7 @@
             contentType: "application/json",
         }).done(function () {
             alert("❌ 게시글 좋아요 취소");
-            window.location.href = host + "/api/posts/" + feedId
+            window.location.href = host + "/posts/" + feedId
         }).fail(function (res) {
             alert(res.responseText);
         })
@@ -203,7 +219,7 @@
             contentType: "application/json",
         }).done(function () {
             alert("💕 댓글 좋아요");
-            window.location.href = host + "/api/posts/" + [[${post.id}]]
+            window.location.href = host + "/posts/" + [[${post.id}]]
         }).fail(function (res) {
             alert(res.responseText);
         })
@@ -215,7 +231,7 @@
             contentType: "application/json",
         }).done(function () {
             alert("💔 댓글 좋아요 취소");
-            window.location.href = host + "/api/posts/" + [[${post.id}]]
+            window.location.href = host + "/posts/" + [[${post.id}]]
         }).fail(function (res) {
             alert(res.responseText);
         })

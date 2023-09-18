@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -61,4 +63,5 @@ public class Member {
         this.imageUrl = requestDto.getImageUrl();
         this.introduce = requestDto.getIntroduce();
     }
+
 }

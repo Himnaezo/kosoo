@@ -4,7 +4,7 @@ package com.sparta.kosoo.feed.service;
 import com.sparta.common.config.security.MemberDetailsImpl;
 import com.sparta.common.error.ErrorCode;
 import com.sparta.common.error.exception.CommonException;
-import com.sparta.common.util.ImageUploader;
+import com.sparta.common.util.ImageUtil;
 import com.sparta.kosoo.feed.dto.PostRequestDto;
 import com.sparta.kosoo.feed.dto.PostResponseDto;
 import com.sparta.kosoo.feed.entity.Post;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final ImageUploader imageUploader;
+    private final ImageUtil imageUtil;
 
     public PostResponseDto createPost(MemberDetailsImpl userDetails, PostRequestDto requestDto, MultipartFile image) throws IOException {
         Member member = userDetails.getUser();
@@ -34,7 +34,7 @@ public class PostService {
             throw new CommonException(ErrorCode.UNAUTHORIZED_MEMBER, null);
         }
         if (image != null) {
-            String imageUrl = imageUploader.upload(image, "image");
+            String imageUrl = imageUtil.upload(image, "image");
             requestDto.setImageUrl(imageUrl);
         }
         Post post = Post.builder()
@@ -64,7 +64,7 @@ public class PostService {
         if (post.getMember().getId().equals(userDetails.getUser().getId()) ||
                 userDetails.getRole().equals(MemberRole.ADMIN.toString())) {
             if (image != null) {
-                    String imageUrl = imageUploader.upload(image, "image");
+                    String imageUrl = imageUtil.upload(image, "image");
                     requestDto.setImageUrl(imageUrl);
             }
             post.update(requestDto);

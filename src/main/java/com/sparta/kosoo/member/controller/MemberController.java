@@ -22,7 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -77,8 +80,10 @@ public class MemberController {
 
     @GetMapping("/members")
     @ResponseBody
-    public List<MemberDto> readMembers(){
-        return memberService.readMembers();
+    public List<MemberDto> readMembers() {
+        List<MemberDto> members = memberService.readMembers();
+
+        return members;
     }
 
     @GetMapping("/profile")

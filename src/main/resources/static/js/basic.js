@@ -28,7 +28,7 @@ function loadProfile() {
             success: function (response) {
                 $('#profile').empty();
                 $('#profile').append(`
-                  <div class="card" style="width: 20rem;">
+                  <div class="card col">
                     <img src="${response.imageUrl}" class="image card-img-top" alt="프로필사진">
                      <div class="feedContent card-body">
                         <h4>${response.username}</h4>
@@ -36,8 +36,8 @@ function loadProfile() {
                             <p>${response.introduce}</p>
                         </div>
                     </div>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3 me-3">
-                      <button type="button" class="btn btn-submit" onclick="modifyProfile()">프로필 수정</button>
+                    <div class="text-end">
+                      <button type="button" class="btn btn-submit m-3" onclick="modifyProfile()">프로필 수정</button>
                     </div>
                   </div>
                 `)
@@ -78,7 +78,7 @@ function loadFeed() {
 }
 
 function addHTML(post) {
-    return `<div class="col">
+    return `<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                 <a href="http://localhost:8080/posts/${post.id}" class="card card-post text-bg-dark position-relative">
                   <img src="${post.imageUrl}" class="card-img overflow-hidden" alt="게시글썸네일">
 
@@ -96,33 +96,26 @@ function addHTML(post) {
 }
 
 function logout() {
-    const auth = getToken();
-
-    // 이미 로그아웃된 경우 알림 후 리다이렉트
-    if (!auth) {
-        alert('이미 로그아웃 상태입니다.');
-        window.location.href = '/';
-        return;
-    }
-
     fetch('/api/accounts/logout', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': auth, // Authorization 헤더 추가
+            // 여기에 필요한 헤더를 추가할 수 있습니다.
         },
     })
         .then(response => {
             if (response.status === 200) {
+                // 로그아웃 성공한 경우 "/"로 리다이렉트합니다.
                 window.location.href = '/';
-                alert('로그아웃 성공');
+                alert('로그아웃 성공')
             } else {
-                alert('로그아웃 실패');
+                // 실패한 경우 적절한 에러 처리를 수행할 수 있습니다.
+                alert('로그아웃 실패')
                 console.error('로그아웃 실패');
             }
         })
         .catch(error => {
-            alert('로그아웃 중 오류 발생');
+            alert('로그아웃 중 오류 발생')
             console.error('로그아웃 중 오류 발생', error);
         });
 }

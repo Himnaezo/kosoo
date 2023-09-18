@@ -71,11 +71,11 @@ ul, li>a:hover {
 }
 input::placeholder {
     color: #b9b9b9;
-    font-size: 10px;
+    font-size: 12px;
 }
 textarea::placeholder {
     color: #b9b9b9;
-    font-size: 10px;
+    font-size: 12px;
 }
 .btn-edit {
     background-color: #E0E3DA;
@@ -163,25 +163,20 @@ svg.svg-inline--fa {
 }
 .card-profile {
     padding: 2rem;
-    width: 17rem;
-    height: 25rem;
+    width: 16rem;
+    height: 22rem;
 }
 .card-post {
-    width: 18rem;
-    height: 18rem;
+    width: 16rem;
+    height: 16rem;
+    margin: 1rem;
 }
-.start-21 {
-    left: 21%!important;
+.start-15 {
+    left: 15%!important;
 }
-.col {
-    /*padding: 0 !important;*/
-    margin: 0 0 2rem 0 !important;
-}
-
-/* .wrap-kosoo 스크롤 수정 */
 .wrap-kosoo {
-    white-space: pre-wrap; /* 줄 바꿈 유지 및 자동 줄 바꿈 활성화 */
-    word-break: break-word; /* 긴 단어(or 문장)를 줄 바꿈 */
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 .d-kosoo {
     display: flex !important;

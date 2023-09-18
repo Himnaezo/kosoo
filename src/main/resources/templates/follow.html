@@ -61,12 +61,12 @@
         });
     }
     function addHTML(post) {
-        return `<div class="col">
+        return `<div class="col-xxl-3 col-xl-3 col-md-6 col-sm-12">
                     <a href="http://localhost:8080/api/posts/${post.id}" class="card card-post text-bg-dark position-relative">
                       <img src="${post.imageUrl}" class="card-img overflow-hidden" alt="게시글썸네일">
 
                       <div class="card-img-overlay">
-                        <div class="card-title fs-4 fw-bold m-3">${post.title}</div>
+                        <div class="card-title fs-5 fw-bold m-3">${post.title}</div>
 
                         <div class="card-text text-end fs-6 position-absolute bottom-0 end-0 m-3">
                           <span class="text-start fw-bold">${post.username}</span>
@@ -95,12 +95,12 @@
         });
     }
     function addProfile(profile) {
-        return `<div class="col">
+        return `<div class="col-xxl-3 col-xl-3 col-md-6 col-sm-12 mb-5">
                   <div id="post" class="card bg-kosoo card-profile position-relative">
                     <img src="${profile.imageUrl}" class="img-thumbnail card-img-top" alt="프로필썸네일">
-                    <div class="card-title fs-4 fw-bold">${profile.username}</div>
+                    <div class="card-title fs-5 fw-bold">${profile.username}</div>
                     <div class="card-text fs-6 mb-2">${profile.introduce}</div>
-                      <div class="card-body position-absolute bottom-0 start-21">
+                      <div class="card-body position-absolute bottom-0 start-15">
                         <button type="button" class="btn btn-submit" onclick="follow(${profile.id})">팔로우</button>
                         <button type="button" class="btn btn-edit" onclick="unfollow(${profile.id})">언팔로우</button>
                       </div>

@@ -5,6 +5,8 @@ import com.sparta.kosoo.member.entity.MemberRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 public class MemberDto {
@@ -21,4 +23,5 @@ public class MemberDto {
         this.isAdmin = member.getRole() == MemberRole.ADMIN;
         this.imageUrl = member.getImageUrl();
     }
+
 }

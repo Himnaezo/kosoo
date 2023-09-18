@@ -137,7 +137,7 @@
     │   │       │   |   └── GlobalExceptionHandler.java
     │   │       │   └── util
     │   │       │       ├── JwtUtil.java
-    │   │       │       └── ImageUploader.java
+    │   │       │       └── ImageUtil.java
     │   │       ├── kosoo
     │   │       │   ├── feed
     |   |       │   |   ├── controller

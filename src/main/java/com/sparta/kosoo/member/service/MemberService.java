@@ -6,7 +6,7 @@ import com.sparta.common.error.ErrorCode;
 import com.sparta.common.error.exception.DuplicateUsernameException;
 import com.sparta.common.error.exception.PasswordMismatchException;
 import com.sparta.common.error.exception.UserNotFoundException;
-import com.sparta.common.util.ImageUploader;
+import com.sparta.common.util.ImageUtil;
 import com.sparta.kosoo.member.dto.*;
 import com.sparta.kosoo.member.entity.Member;
 import com.sparta.kosoo.member.entity.MemberRole;
@@ -24,8 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,106 +36,106 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
-    private final ImageUploader imageUploader;
+    private final ImageUtil imageUtil;
 
-    private static final int AUTH_CODE_LENGTH = 6; // 이메일 인증 코드 상수로 정의
-
-    @Transactional
     public void signup(SignupRequestDto requestDto) {
-        validateUniqueUsername(requestDto.getUsername());
-
         String username = requestDto.getUsername();
-        String password = encodePassword(requestDto.getPassword());
+        String password = passwordEncoder.encode(requestDto.getPassword());
         String email = requestDto.getEmail();
         MemberRole role = requestDto.getRole();
 
-        Member member = new Member(username, password, email, role);
+        if (memberRepository.findByUsername(username).isPresent()) {
+            throw new DuplicateUsernameException(ErrorCode.IN_USED_ID, null);
+        }
+
+        Member member = new Member(username, password, email, role); // 이메일 추가
         memberRepository.save(member);
     }
 
+
     @Transactional(readOnly = true)
     public ProfileResponseDto readProfile(MemberDetailsImpl userDetails) {
-        Member member = userDetails.getUser();
+        Member member = userDetails.getUser(); // 로그인 된 유저에 맞는 정보 담기
+
         return new ProfileResponseDto(member.getUsername(), member.getIntroduce());
     }
 
     @Transactional
     public boolean checkPassword(MemberDetailsImpl userDetails, PasswordRequestDto requestDto) {
         Member member = userDetails.getUser();
-        validatePassword(requestDto.getPassword(), member.getPassword());
-        return true;
+        // 비밀번호 확인
+        System.out.println(requestDto.getPassword());
+        if (!passwordEncoder.matches(requestDto.getPassword(), member.getPassword())) {
+            throw new PasswordMismatchException(ErrorCode.WRONG_PASSWORD, null);
+        }
+        return true; // 수정 페이지로 넘어가기 전 비밀번호 확인
     }
 
     @Transactional
     public ApiResult updateProfile(MemberDetailsImpl userDetails, ProfileRequestDto requestDto, MultipartFile image) throws IOException {
-        Member member = userDetails.getUser();
-        updateMemberProfile(member, requestDto, image);
-        return new ApiResult("정보 수정 완료", HttpStatus.OK.value());
-    }
-
-    public String emailAuth(String email) throws MessagingException {
-        String authCode = generateAuthCode();
-        sendAuthCodeEmail(email, authCode);
-        return authCode;
-    }
-
-    public Member findByEmail(String email) {
-        return memberRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_MEMBER, null));
-    }
-
-    public List<MemberDto> readMembers() {
-        return memberRepository.findAll().stream().map(MemberDto::new).toList();
-    }
-
-    private void validateUniqueUsername(String username) {
-        if (memberRepository.findByUsername(username).isPresent()) {
-            throw new DuplicateUsernameException(ErrorCode.IN_USED_ID, null);
-        }
-    }
-
-    private String encodePassword(String password) {
-        return passwordEncoder.encode(password);
-    }
-
-    private void validatePassword(String inputPassword, String storedPassword) {
-        if (!passwordEncoder.matches(inputPassword, storedPassword)) {
-            throw new PasswordMismatchException(ErrorCode.WRONG_PASSWORD, null);
-        }
-    }
-
-    private void updateMemberProfile(Member member, ProfileRequestDto requestDto, MultipartFile image) throws IOException {
-        requestDto.setPassword(encodePassword(requestDto.getPassword()));
+        Member member = userDetails.getUser(); // 로그인 된 유저에 맞는 정보 담기
+        requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        Member targetMember = memberRepository.findById(member.getId()).orElseThrow(() ->
+                new UserNotFoundException(ErrorCode.NOT_FOUND_MEMBER, null));
 
         if (image != null) {
-            String imageUrl = imageUploader.upload(image, "image");
+            String imageUrl = imageUtil.upload(image, "image");
+            System.out.println("imageUrl = " + imageUrl);
             requestDto.setImageUrl(imageUrl);
         }
 
-        member.update(requestDto);
+        // 사용자 정보를 업데이트
+        targetMember.update(requestDto);
+
+        return new ApiResult("정보 수정 완료", HttpStatus.OK.value());
     }
 
-    private String generateAuthCode() {
-        StringBuilder authCode = new StringBuilder();
-        Random random = new Random();
 
-        for (int i = 0; i < AUTH_CODE_LENGTH; i++) {
+    public String emailAuth(String email) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        String authCode = createCode();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        mimeMessageHelper.setTo(email); // 메일 수신자
+        mimeMessageHelper.setSubject("이메일 인증을 위한 인증 코드 발송"); // 메일 제목
+        mimeMessageHelper.setText(authCode); // 인증 코드
+        javaMailSender.send(mimeMessage);
+        return authCode;
+    }
+
+    private String createCode() {    // 이메일 인증번호 생성 메서드
+        Random random = new Random();
+        StringBuffer key = new StringBuffer();
+
+        for (int i = 0; i < 6; i++) {
             int index = random.nextInt(4);
             switch (index) {
-                case 0 -> authCode.append((char) (random.nextInt(26) + 97)); // 소문자 알파벳
-                case 1 -> authCode.append((char) (random.nextInt(26) + 65)); // 대문자 알파벳
-                default -> authCode.append(random.nextInt(10)); // 숫자
+                case 0:
+                    key.append((char) ((int) random.nextInt(26) + 97));
+                    break;
+                case 1:
+                    key.append((char) ((int) random.nextInt(26) + 65));
+                    break;
+                default:
+                    key.append(random.nextInt(9));
             }
         }
-
-        return authCode.toString();
+        return key.toString();
     }
 
-    private void sendAuthCodeEmail(String email, String authCode) throws MessagingException {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-        mimeMessageHelper.setTo(email);
-        mimeMessageHelper.setSubject("이메일 인증을 위한 인증 코드 발송");
-        mimeMessageHelper.setText(authCode);
-        javaMailSender.send(mimeMessage);
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow();
     }
+
+    public List<MemberDto> readMembers() {
+        // 모든 멤버 가져오기
+        List<Member> members = memberRepository.findAll();
+
+        List<Member> sortedMembers = members.stream()
+                .toList();
+
+        return sortedMembers.stream()
+                .map(MemberDto::new)
+                .collect(Collectors.toList());
+    }
+
 }
